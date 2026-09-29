@@ -1,6 +1,6 @@
 """Генерирует docs/hardware/buttons_encoder_schematic.svg. Запуск: python3 gen_buttons_schematic.py"""
 import os
-W,H=1380,820
+W,H=1380,1010
 o=[];a=o.append
 a(f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" font-family="DejaVu Sans, Arial, sans-serif">')
 a('''<style>
@@ -12,8 +12,8 @@ a('''<style>
 .band{fill:#efebe3}
 </style>''')
 a(f'<rect width="{W}" height="{H}" fill="#faf8f3"/>')
-a('<text x="30" y="50" class="t b" style="font-size:26px">Hall SpaceMouse — энкодер и 5 кнопок</text>')
-a('<text x="30" y="78" class="t" style="fill:#55524c">EC11 + 5 клавиатурных свичей (Cherry MX / Kailh) · без подсветки · внутренние pull-up STM32</text>')
+a('<text x="30" y="50" class="t b" style="font-size:26px">Hall SpaceMouse — энкодер, 5 кнопок и кольцо WS2812</text>')
+a('<text x="30" y="78" class="t" style="fill:#55524c">EC11 + 5 клавиатурных свичей (Cherry MX / Kailh) · внутренние pull-up STM32 · кольцо WS2812 для подсказок</text>')
 def dot(x,y,c='#2b2a27'): a(f'<circle cx="{x}" cy="{y}" r="4.5" fill="{c}"/>')
 def gnd(x,y): a(f'<path class="w" d="M{x-12} {y} H{x+12} M{x-7} {y+5} H{x+7} M{x-3} {y+10} H{x+3}"/>')
 XBP=320; XG=1000
@@ -23,7 +23,7 @@ a('<text x="616" y="164" class="t b">Энкодер (на корпусе)</text>
 a('<rect class="band" x="600" y="420" width="460" height="330" rx="10"/>')
 a('<text x="616" y="444" class="t b">Кнопки хоткеев (на корпусе)</text>')
 # Blue Pill
-a(f'<rect x="60" y="120" width="{XBP-60}" height="660" rx="8" fill="#e9eef5" stroke="#2b2a27" stroke-width="2"/>')
+a(f'<rect x="60" y="120" width="{XBP-60}" height="850" rx="8" fill="#e9eef5" stroke="#2b2a27" stroke-width="2"/>')
 a('<text x="170" y="430" class="t b" text-anchor="middle" style="font-size:18px">Blue Pill</text>')
 a('<text x="170" y="452" class="s" text-anchor="middle">STM32F103C8T6</text>')
 a('<text x="170" y="472" class="s" text-anchor="middle">вход + внутр. pull-up</text>')
@@ -70,13 +70,45 @@ for i,(p,y) in enumerate(btns):
     a(f'<path class="w" d="M{(x0+x1)//2} {y-12} V{y-24} M{(x0+x1)//2-8} {y-24} H{(x0+x1)//2+8}"/>')
     a(f'<text x="{x0-40}" y="{y-8}" class="s" text-anchor="end">SW{i+1}</text>')
     a(f'<path class="g" d="M{x1+5} {y} H{XG}"/>'); dot(XG,y,'#1d4e89')
-    a(f'<text x="{x1+20}" y="{y-8}" class="s">хоткей {i+1}</text>')
+    a(f'<text x="{x1+20}" y="{y-8}" class="s">кнопка {["1","2","3","4","Fit"][i]}</text>')
+# ring WS2812
+a('<rect class="band" x="600" y="780" width="460" height="200" rx="10"/>')
+a('<text x="616" y="804" class="t b">Кольцо WS2812 (под рукояткой)</text>')
+ya, yv = 840, 920   # DIN и 5V
+a(f'<text x="{XBP-8}" y="{ya+5}" class="m" text-anchor="end">PA8</text>')
+a(f'<text x="{XBP-8}" y="{yv+5}" class="m" text-anchor="end">5V</text>')
+a(f'<path class="w" d="M{XBP} {ya} H860"/>')
+a(f'<path d="M{XBP} {yv} H860" style="stroke:#c2410c;stroke-width:2.5;fill:none"/>')
+# подтяжка 1к между линией данных и 5 В — у Blue Pill
+dot(420,ya); dot(420,yv,'#c2410c')
+a(f'<path class="w" d="M420 {ya} V{ya+18} M420 {yv-18} V{yv}"/>')
+a(f'<rect x="413" y="{ya+18}" width="14" height="{yv-ya-36}" fill="#fff" stroke="#2b2a27" stroke-width="2"/>')
+a(f'<text x="436" y="{(ya+yv)//2-4}" class="s">R 1 кОм</text>')
+a(f'<text x="436" y="{(ya+yv)//2+12}" class="s">у Blue Pill</text>')
+# кольцо
+a('<rect class="box" x="860" y="820" width="170" height="130" rx="8"/>')
+a('<circle cx="960" cy="885" r="30" fill="none" stroke="#2b2a27" stroke-width="2" stroke-dasharray="5 4"/>')
+a('<text x="960" y="889" class="s" text-anchor="middle">N шт.</text>')
+a(f'<text x="866" y="{ya+4}" class="s" style="font-size:11px">DIN</text>')
+a(f'<text x="866" y="{yv+4}" class="s" style="font-size:11px">5V</text>')
+a('<text x="1024" y="836" class="s" text-anchor="end" style="font-size:11px">GND</text>')
+a(f'<path class="g" d="M1000 820 V740"/>'); dot(1000,740,'#1d4e89')
+# конденсаторы у кольца: 5 В -> земля
+for cx,lab in ((660,'470 мкФ'),(780,'100 нФ')):
+    dot(cx,yv,'#c2410c')
+    a(f'<path class="w" d="M{cx} {yv} V{yv+11} M{cx} {yv+17} V{yv+26}"/>')
+    a(f'<path class="w" d="M{cx-12} {yv+11} H{cx+12} M{cx-12} {yv+17} H{cx+12}" style="stroke-width:3"/>')
+    gnd(cx,yv+26)
+    a(f'<text x="{cx+16}" y="{yv+22}" class="s">{lab}</text>')
+a(f'<text x="{cx-12}" y="{yv+52}" class="s">C — у кольца</text>')
+
 # notes
 lx=1090
-L=[('b','Хоткеи'),('s','SW1–SW5 → хоткеи 1–5'),('s','ENC вправо → хоткей 6'),('s','ENC влево → хоткей 7'),('s','ENC нажатие → хоткей 8'),('s','(импульс 20–30 мс на щелчок)'),
+L=[('b','Кнопки SpaceMouse Pro'),('s','SW1–SW4 → 1–4, SW5 → Fit'),('s','ENC вправо / влево → T / R'),('s','ENC нажатие → F'),('s','(щелчок = «нажатие» 30 мс)'),('s','SW1 + SW5 при включении —'),('s','режим калибровки'),
    ('sp',''),('b','Обвязка'),('s','Кнопки: вывод → пин, вывод → GND'),('s','Pull-up — внутренние, в прошивке'),('s','Дребезг — программно, 5–10 мс'),('s','Внешних резисторов нет'),
    ('sp',''),('b','EC11, вид снизу'),('s','3 вывода: A · C · B'),('s','(C — средний, на GND)'),('s','2 вывода: S1 · S2 — кнопка'),
    ('sp',''),('b','Не использовать'),('s','PB2 (BOOT1), PB3/PB4/PA15 (JTAG)'),('s','PA11/PA12 (USB), PA13/PA14 (SWD)'),('s','PA0–PA7 заняты датчиками'),
+   ('sp',''),('b','Кольцо WS2812'),('s','PA8 — TIM1_CH1, открытый сток,'),('s','5 В-толерантный; R 1 кОм к 5 В'),('s','Питание 5 В с USB (пин 5V)'),('s','Яркость ограничена в прошивке'),('s','C 470 мкФ + 100 нФ — у кольца'),
    ('sp',''),('b','Обозначения'),('dot','— соединение'),('gs','— земля (GND)'),('g','шина GND'),]
 y=140
 for kind,txt in L:

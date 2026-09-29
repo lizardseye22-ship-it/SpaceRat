@@ -7,36 +7,47 @@
 #![no_std]
 #![no_main]
 
+mod calib;
 mod config;
 mod hid;
 mod input;
+mod led;
 mod sensors;
+mod storage;
 
 use core::cell::Cell;
 
 use defmt::{debug, info, warn};
 use embassy_executor::Spawner;
-use embassy_futures::join::join5;
+use embassy_futures::join::{join, join5};
 use embassy_stm32::adc::{Adc, AdcChannel, AnyAdcChannel, SampleTime};
-use embassy_stm32::gpio::{Input, Level, Output, Pull, Speed};
+use embassy_stm32::flash::Flash;
+use embassy_stm32::gpio::{AfioRemap, Input, Level, Output, OutputType, Pull, Speed};
 use embassy_stm32::pac::timer::vals::{Ckd, FilterValue};
 use embassy_stm32::peripherals::ADC1;
+use embassy_stm32::time::khz;
+use embassy_stm32::timer::Channel;
+use embassy_stm32::timer::low_level::CountingMode;
 use embassy_stm32::timer::qei::{Qei, QeiMode};
+use embassy_stm32::timer::simple_pwm::{PwmPin, SimplePwm};
 use embassy_stm32::time::Hertz;
 use embassy_stm32::usb::Driver;
-use embassy_stm32::{Config, adc, bind_interrupts, peripherals, usb};
-use embassy_time::{Duration, Ticker, Timer};
+use embassy_stm32::{Config, adc, bind_interrupts, dma, peripherals, usb};
+use embassy_time::{Duration, Instant, Ticker, Timer};
 use embassy_usb::Builder;
 use embassy_usb::class::hid::{HidBootProtocol, HidReaderWriter, HidSubclass, State};
 use {defmt_rtt as _, panic_probe as _};
 
+use crate::calib::{CalData, CalEvent, Calibrator};
 use crate::config::*;
 use crate::input::{Debouncer, EncoderCounter, EncoderPulser};
+use crate::led::LedState;
 use crate::sensors::{Processor, SENSORS};
 
 bind_interrupts!(struct Irqs {
     USB_LP_CAN1_RX0 => usb::InterruptHandler<peripherals::USB>;
     ADC1_2 => adc::InterruptHandler<ADC1>;
+    DMA1_CHANNEL5 => dma::InterruptHandler<peripherals::DMA1_CH5>;
 });
 
 #[embassy_executor::main]
@@ -107,6 +118,10 @@ async fn main(_spawner: Spawner) {
     // Общее состояние между задачами (один поток исполнения, блокировки не нужны).
     let axes: Cell<[i16; 6]> = Cell::new([0; 6]);
     let keys: Cell<u32> = Cell::new(0);
+    let led_state: Cell<LedState> = Cell::new(LedState::Boot);
+    // SW1 + SW5 зажаты при включении -> режим калибровки (ставит input_fut,
+    // снимает sensor_fut по окончании). Пока он активен, кнопки в ПК не уходят.
+    let cal_active: Cell<bool> = Cell::new(false);
 
     // --------------------------------------------------------- Датчики ---
     let sensor_fut = async {
@@ -122,6 +137,12 @@ async fn main(_spawner: Spawner) {
             p.PA7.degrade_adc(),
         ];
         let mut proc = Processor::new();
+
+        let mut flash = Flash::new_blocking(p.FLASH);
+        let stored = storage::load(&mut flash);
+        let mut calibrated = stored.is_some();
+        let mut cal = stored.unwrap_or_else(CalData::defaults);
+        info!("калибровка из flash: {}", if calibrated { "есть" } else { "нет, значения из config.rs" });
 
         // Калибровка нуля: ручку в это время не трогать.
         Timer::after_millis(CALIBRATION_SETTLE_MS).await;
@@ -143,12 +164,56 @@ async fn main(_spawner: Spawner) {
         }
 
         let mut ticker = Ticker::every(Duration::from_millis(SENSOR_PERIOD_MS));
+
+        // ---------------------------------------------- режим калибровки ---
+        if cal_active.get() {
+            info!("режим калибровки");
+            let mut wizard = Calibrator::new();
+            let result = loop {
+                ticker.next().await;
+                let raw = read_all(&mut adc, &mut ch).await;
+                let ra = proc.raw_axes(&raw);
+                match wizard.update(&ra, SENSOR_PERIOD_MS as u32) {
+                    CalEvent::Captured(n) => info!("шаг {} записан: {}", n + 1, ra),
+                    CalEvent::Rejected(n) => warn!("шаг {}: эта ось уже записана, повторите движение", n + 1),
+                    CalEvent::Finished(c) => break Some(c),
+                    CalEvent::Failed => break None,
+                    CalEvent::None => {}
+                }
+                led_state.set(LedState::Cal(wizard.view()));
+            };
+            match result {
+                Some(c) => {
+                    led_state.set(LedState::Saved);
+                    Timer::after_millis(50).await; // дать кольцу показать статус до стирания flash
+                    if storage::save(&mut flash, &c) {
+                        info!("калибровка сохранена");
+                        cal = c;
+                        calibrated = true;
+                    } else {
+                        warn!("не удалось записать flash");
+                        led_state.set(LedState::Failed);
+                    }
+                }
+                None => {
+                    warn!("калибровка не удалась: движения не различаются, повторите");
+                    led_state.set(LedState::Failed);
+                }
+            }
+            Timer::after_millis(2000).await;
+            cal_active.set(false);
+            ticker = Ticker::every(Duration::from_millis(SENSOR_PERIOD_MS));
+        }
+
+        // ------------------------------------------------ обычная работа ---
         let mut n: u32 = 0;
         loop {
             ticker.next().await;
             let raw = read_all(&mut adc, &mut ch).await;
-            let (out, raw_axes) = proc.update(&raw);
+            let raw_axes = proc.raw_axes(&raw);
+            let out = proc.output(&raw_axes, &cal);
             axes.set(out);
+            led_state.set(LedState::Normal { axes: out, calibrated });
 
             // Раз в секунду — значения для настройки (DEFMT_LOG=debug).
             n = n.wrapping_add(1);
@@ -192,6 +257,12 @@ async fn main(_spawner: Spawner) {
             tim.cr1().modify(|w| w.set_cen(true));
         }
 
+        // SW1 + SW5 при включении — режим калибровки.
+        Timer::after_millis(20).await;
+        if buttons[0].is_low() && buttons[4].is_low() {
+            cal_active.set(true);
+        }
+
         let mut debounce = [Debouncer::default(); 6];
         let mut encoder = EncoderCounter::new(qei.count());
         let mut pulser = EncoderPulser::new();
@@ -210,7 +281,7 @@ async fn main(_spawner: Spawner) {
             }
             pulser.push(encoder.update(qei.count()));
             bits |= pulser.tick();
-            keys.set(bits);
+            keys.set(if cal_active.get() { 0 } else { bits });
         }
     };
 
@@ -254,9 +325,46 @@ async fn main(_spawner: Spawner) {
         }
     };
 
+    // ------------------------------------------------------ Кольцо WS2812 ---
+    // PA8 = TIM1_CH1, открытый сток + подтяжка 1 кОм к 5 В. Кадр уходит через
+    // DMA по событию обновления таймера (TIM1_UP -> DMA1 канал 5).
+    let led_fut = async {
+        let mut pwm = SimplePwm::new(
+            p.TIM1,
+            Some(PwmPin::<_, _, AfioRemap<0>>::new(p.PA8, OutputType::OpenDrain)),
+            None,
+            None,
+            None,
+            khz(800),
+            CountingMode::EdgeAlignedUp,
+        );
+        let max = pwm.max_duty_cycle() as u16;
+        let n0 = max * 8 / 25; // «0»: ~0.4 мкс высокого уровня из 1.25
+        let n1 = n0 * 2; //       «1»: ~0.8 мкс
+        pwm.channel(Channel::Ch1).set_duty_cycle(0);
+        let mut dma_ch = p.DMA1_CH5;
+
+        let ring = led::Ring::new();
+        let mut buf = [0u16; led::DMA_LEN];
+        let mut ticker = Ticker::every(Duration::from_millis(LED_FRAME_MS));
+        let mut prev = led_state.get();
+        let mut since = Instant::now();
+        loop {
+            ticker.next().await;
+            let state = led_state.get();
+            if core::mem::discriminant(&state) != core::mem::discriminant(&prev) {
+                since = Instant::now();
+            }
+            prev = state;
+            let frame = led::render(&ring, &state, since.elapsed().as_millis() as u32);
+            led::encode(&frame, n0, n1, &mut buf);
+            pwm.waveform_up(dma_ch.reborrow(), Irqs, Channel::Ch1, &buf).await;
+        }
+    };
+
     let out_fut = reader.run(true, &mut out_handler);
 
-    join5(usb.run(), out_fut, sensor_fut, input_fut, report_fut).await;
+    join(join5(usb.run(), out_fut, sensor_fut, input_fut, report_fut), led_fut).await;
 }
 
 /// Прочитать все 8 датчиков с усреднением OVERSAMPLE выборок.

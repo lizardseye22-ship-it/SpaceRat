@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1380" height="820" viewBox="0 0 1380 820" font-family="DejaVu Sans, Arial, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" width="1380" height="1010" viewBox="0 0 1380 1010" font-family="DejaVu Sans, Arial, sans-serif">
 <style>
 .w{stroke:#2b2a27;stroke-width:2;fill:none}
 .g{stroke:#1d4e89;stroke-width:2.5;fill:none}
@@ -7,14 +7,14 @@
 .m{font-family:DejaVu Sans Mono,monospace;font-size:13px;fill:#2b2a27}.b{font-weight:bold}
 .band{fill:#efebe3}
 </style>
-<rect width="1380" height="820" fill="#faf8f3"/>
-<text x="30" y="50" class="t b" style="font-size:26px">Hall SpaceMouse — энкодер и 5 кнопок</text>
-<text x="30" y="78" class="t" style="fill:#55524c">EC11 + 5 клавиатурных свичей (Cherry MX / Kailh) · без подсветки · внутренние pull-up STM32</text>
+<rect width="1380" height="1010" fill="#faf8f3"/>
+<text x="30" y="50" class="t b" style="font-size:26px">Hall SpaceMouse — энкодер, 5 кнопок и кольцо WS2812</text>
+<text x="30" y="78" class="t" style="fill:#55524c">EC11 + 5 клавиатурных свичей (Cherry MX / Kailh) · внутренние pull-up STM32 · кольцо WS2812 для подсказок</text>
 <rect class="band" x="600" y="140" width="460" height="260" rx="10"/>
 <text x="616" y="164" class="t b">Энкодер (на корпусе)</text>
 <rect class="band" x="600" y="420" width="460" height="330" rx="10"/>
 <text x="616" y="444" class="t b">Кнопки хоткеев (на корпусе)</text>
-<rect x="60" y="120" width="260" height="660" rx="8" fill="#e9eef5" stroke="#2b2a27" stroke-width="2"/>
+<rect x="60" y="120" width="260" height="850" rx="8" fill="#e9eef5" stroke="#2b2a27" stroke-width="2"/>
 <text x="170" y="430" class="t b" text-anchor="middle" style="font-size:18px">Blue Pill</text>
 <text x="170" y="452" class="s" text-anchor="middle">STM32F103C8T6</text>
 <text x="170" y="472" class="s" text-anchor="middle">вход + внутр. pull-up</text>
@@ -62,7 +62,7 @@
 <text x="760" y="482" class="s" text-anchor="end">SW1</text>
 <path class="g" d="M865 490 H1000"/>
 <circle cx="1000" cy="490" r="4.5" fill="#1d4e89"/>
-<text x="880" y="482" class="s">хоткей 1</text>
+<text x="880" y="482" class="s">кнопка 1</text>
 <text x="312" y="545" class="m" text-anchor="end">PB12</text>
 <path class="w" d="M320 540 H795"/>
 <circle cx="800" cy="540" r="4.5" fill="#fff" stroke="#2b2a27" stroke-width="2"/>
@@ -72,7 +72,7 @@
 <text x="760" y="532" class="s" text-anchor="end">SW2</text>
 <path class="g" d="M865 540 H1000"/>
 <circle cx="1000" cy="540" r="4.5" fill="#1d4e89"/>
-<text x="880" y="532" class="s">хоткей 2</text>
+<text x="880" y="532" class="s">кнопка 2</text>
 <text x="312" y="595" class="m" text-anchor="end">PB13</text>
 <path class="w" d="M320 590 H795"/>
 <circle cx="800" cy="590" r="4.5" fill="#fff" stroke="#2b2a27" stroke-width="2"/>
@@ -82,7 +82,7 @@
 <text x="760" y="582" class="s" text-anchor="end">SW3</text>
 <path class="g" d="M865 590 H1000"/>
 <circle cx="1000" cy="590" r="4.5" fill="#1d4e89"/>
-<text x="880" y="582" class="s">хоткей 3</text>
+<text x="880" y="582" class="s">кнопка 3</text>
 <text x="312" y="645" class="m" text-anchor="end">PB14</text>
 <path class="w" d="M320 640 H795"/>
 <circle cx="800" cy="640" r="4.5" fill="#fff" stroke="#2b2a27" stroke-width="2"/>
@@ -92,7 +92,7 @@
 <text x="760" y="632" class="s" text-anchor="end">SW4</text>
 <path class="g" d="M865 640 H1000"/>
 <circle cx="1000" cy="640" r="4.5" fill="#1d4e89"/>
-<text x="880" y="632" class="s">хоткей 4</text>
+<text x="880" y="632" class="s">кнопка 4</text>
 <text x="312" y="695" class="m" text-anchor="end">PB15</text>
 <path class="w" d="M320 690 H795"/>
 <circle cx="800" cy="690" r="4.5" fill="#fff" stroke="#2b2a27" stroke-width="2"/>
@@ -102,30 +102,68 @@
 <text x="760" y="682" class="s" text-anchor="end">SW5</text>
 <path class="g" d="M865 690 H1000"/>
 <circle cx="1000" cy="690" r="4.5" fill="#1d4e89"/>
-<text x="880" y="682" class="s">хоткей 5</text>
-<text x="1090" y="140" class="t b">Хоткеи</text>
-<text x="1090" y="162" class="s">SW1–SW5 → хоткеи 1–5</text>
-<text x="1090" y="184" class="s">ENC вправо → хоткей 6</text>
-<text x="1090" y="206" class="s">ENC влево → хоткей 7</text>
-<text x="1090" y="228" class="s">ENC нажатие → хоткей 8</text>
-<text x="1090" y="250" class="s">(импульс 20–30 мс на щелчок)</text>
-<text x="1090" y="284" class="t b">Обвязка</text>
-<text x="1090" y="306" class="s">Кнопки: вывод → пин, вывод → GND</text>
-<text x="1090" y="328" class="s">Pull-up — внутренние, в прошивке</text>
-<text x="1090" y="350" class="s">Дребезг — программно, 5–10 мс</text>
-<text x="1090" y="372" class="s">Внешних резисторов нет</text>
-<text x="1090" y="406" class="t b">EC11, вид снизу</text>
-<text x="1090" y="428" class="s">3 вывода: A · C · B</text>
-<text x="1090" y="450" class="s">(C — средний, на GND)</text>
-<text x="1090" y="472" class="s">2 вывода: S1 · S2 — кнопка</text>
-<text x="1090" y="506" class="t b">Не использовать</text>
-<text x="1090" y="528" class="s">PB2 (BOOT1), PB3/PB4/PA15 (JTAG)</text>
-<text x="1090" y="550" class="s">PA11/PA12 (USB), PA13/PA14 (SWD)</text>
-<text x="1090" y="572" class="s">PA0–PA7 заняты датчиками</text>
-<text x="1090" y="606" class="t b">Обозначения</text>
-<circle cx="1096" cy="623" r="4.5" fill="#2b2a27"/>
-<text x="1110" y="628" class="s">— соединение</text>
-<path class="w" d="M1086 638 H1110 M1091 643 H1105 M1095 648 H1101"/>
-<text x="1118" y="650" class="s">— земля (GND)</text>
-<path class="g" d="M1090 667 H1120"/><text x="1130" y="672" class="s">шина GND</text>
+<text x="880" y="682" class="s">кнопка Fit</text>
+<rect class="band" x="600" y="780" width="460" height="200" rx="10"/>
+<text x="616" y="804" class="t b">Кольцо WS2812 (под рукояткой)</text>
+<text x="312" y="845" class="m" text-anchor="end">PA8</text>
+<text x="312" y="925" class="m" text-anchor="end">5V</text>
+<path class="w" d="M320 840 H860"/>
+<path d="M320 920 H860" style="stroke:#c2410c;stroke-width:2.5;fill:none"/>
+<circle cx="420" cy="840" r="4.5" fill="#2b2a27"/>
+<circle cx="420" cy="920" r="4.5" fill="#c2410c"/>
+<path class="w" d="M420 840 V858 M420 902 V920"/>
+<rect x="413" y="858" width="14" height="44" fill="#fff" stroke="#2b2a27" stroke-width="2"/>
+<text x="436" y="876" class="s">R 1 кОм</text>
+<text x="436" y="892" class="s">у Blue Pill</text>
+<rect class="box" x="860" y="820" width="170" height="130" rx="8"/>
+<circle cx="960" cy="885" r="30" fill="none" stroke="#2b2a27" stroke-width="2" stroke-dasharray="5 4"/>
+<text x="960" y="889" class="s" text-anchor="middle">N шт.</text>
+<text x="866" y="844" class="s" style="font-size:11px">DIN</text>
+<text x="866" y="924" class="s" style="font-size:11px">5V</text>
+<text x="1024" y="836" class="s" text-anchor="end" style="font-size:11px">GND</text>
+<path class="g" d="M1000 820 V740"/>
+<circle cx="1000" cy="740" r="4.5" fill="#1d4e89"/>
+<circle cx="660" cy="920" r="4.5" fill="#c2410c"/>
+<path class="w" d="M660 920 V931 M660 937 V946"/>
+<path class="w" d="M648 931 H672 M648 937 H672" style="stroke-width:3"/>
+<path class="w" d="M648 946 H672 M653 951 H667 M657 956 H663"/>
+<text x="676" y="942" class="s">470 мкФ</text>
+<circle cx="780" cy="920" r="4.5" fill="#c2410c"/>
+<path class="w" d="M780 920 V931 M780 937 V946"/>
+<path class="w" d="M768 931 H792 M768 937 H792" style="stroke-width:3"/>
+<path class="w" d="M768 946 H792 M773 951 H787 M777 956 H783"/>
+<text x="796" y="942" class="s">100 нФ</text>
+<text x="768" y="972" class="s">C — у кольца</text>
+<text x="1090" y="140" class="t b">Кнопки SpaceMouse Pro</text>
+<text x="1090" y="162" class="s">SW1–SW4 → 1–4, SW5 → Fit</text>
+<text x="1090" y="184" class="s">ENC вправо / влево → T / R</text>
+<text x="1090" y="206" class="s">ENC нажатие → F</text>
+<text x="1090" y="228" class="s">(щелчок = «нажатие» 30 мс)</text>
+<text x="1090" y="250" class="s">SW1 + SW5 при включении —</text>
+<text x="1090" y="272" class="s">режим калибровки</text>
+<text x="1090" y="306" class="t b">Обвязка</text>
+<text x="1090" y="328" class="s">Кнопки: вывод → пин, вывод → GND</text>
+<text x="1090" y="350" class="s">Pull-up — внутренние, в прошивке</text>
+<text x="1090" y="372" class="s">Дребезг — программно, 5–10 мс</text>
+<text x="1090" y="394" class="s">Внешних резисторов нет</text>
+<text x="1090" y="428" class="t b">EC11, вид снизу</text>
+<text x="1090" y="450" class="s">3 вывода: A · C · B</text>
+<text x="1090" y="472" class="s">(C — средний, на GND)</text>
+<text x="1090" y="494" class="s">2 вывода: S1 · S2 — кнопка</text>
+<text x="1090" y="528" class="t b">Не использовать</text>
+<text x="1090" y="550" class="s">PB2 (BOOT1), PB3/PB4/PA15 (JTAG)</text>
+<text x="1090" y="572" class="s">PA11/PA12 (USB), PA13/PA14 (SWD)</text>
+<text x="1090" y="594" class="s">PA0–PA7 заняты датчиками</text>
+<text x="1090" y="628" class="t b">Кольцо WS2812</text>
+<text x="1090" y="650" class="s">PA8 — TIM1_CH1, открытый сток,</text>
+<text x="1090" y="672" class="s">5 В-толерантный; R 1 кОм к 5 В</text>
+<text x="1090" y="694" class="s">Питание 5 В с USB (пин 5V)</text>
+<text x="1090" y="716" class="s">Яркость ограничена в прошивке</text>
+<text x="1090" y="738" class="s">C 470 мкФ + 100 нФ — у кольца</text>
+<text x="1090" y="772" class="t b">Обозначения</text>
+<circle cx="1096" cy="789" r="4.5" fill="#2b2a27"/>
+<text x="1110" y="794" class="s">— соединение</text>
+<path class="w" d="M1086 804 H1110 M1091 809 H1105 M1095 814 H1101"/>
+<text x="1118" y="816" class="s">— земля (GND)</text>
+<path class="g" d="M1090 833 H1120"/><text x="1130" y="838" class="s">шина GND</text>
 </svg>

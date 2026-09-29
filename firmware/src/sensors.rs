@@ -1,6 +1,7 @@
 //! Обработка 8 датчиков Холла: ноль, фильтр, пары -> 6 осей.
 //! Схема и формулы: docs/hardware/README.md.
 
+use crate::calib::CalData;
 use crate::config::*;
 
 pub const SENSORS: usize = 8;
@@ -28,33 +29,22 @@ impl Processor {
         self.still_ms = 0;
     }
 
-    /// Один цикл: сырые значения (единицы АЦП) -> оси для HID.
-    /// Возвращает также сырые оси (до мёртвой зоны и усиления) для отладки.
-    pub fn update(&mut self, raw: &[u16; SENSORS]) -> ([i16; 6], [i32; 6]) {
+    /// Фильтр и ноль: сырые значения АЦП -> 6 сырых осей (суммы/разности пар).
+    pub fn raw_axes(&mut self, raw: &[u16; SENSORS]) -> [i32; 6] {
         let mut c = [0i32; SENSORS];
         for i in 0..SENSORS {
             let x = (raw[i] as i32) << SCALE_SHIFT;
             self.filt[i] += (x - self.filt[i]) >> FILTER_SHIFT;
             c[i] = (self.filt[i] - self.zero[i]) >> SCALE_SHIFT;
         }
+        pairs_to_axes(&c)
+    }
 
-        let raw_axes = pairs_to_axes(&c);
-
-        let mut out = [0i16; 6];
-        let mut still = true;
-        for k in 0..6 {
-            let a = if INVERT[k] { -raw_axes[k] } else { raw_axes[k] };
-            let mag = a.abs() - DEADZONE[k];
-            if mag > 0 {
-                still = false;
-                let v = (mag as f32 * GAIN[k]) as i32;
-                let v = v.min(AXIS_LIMIT);
-                out[k] = (if a < 0 { -v } else { v }) as i16;
-            }
-        }
-
-        // Медленно подтягиваем ноль, пока ручку не трогают.
-        if still {
+    /// Сырые оси -> значения для HID по данным калибровки.
+    /// Заодно медленно подтягивает ноль, пока ручку не трогают.
+    pub fn output(&mut self, raw_axes: &[i32; 6], cal: &CalData) -> [i16; 6] {
+        let out = cal.apply(raw_axes);
+        if out.iter().all(|v| *v == 0) {
             self.still_ms = self.still_ms.saturating_add(SENSOR_PERIOD_MS as u32);
             if DRIFT_TRACKING && self.still_ms >= DRIFT_HOLD_MS {
                 for i in 0..SENSORS {
@@ -64,8 +54,7 @@ impl Processor {
         } else {
             self.still_ms = 0;
         }
-
-        (out, raw_axes)
+        out
     }
 }
 
