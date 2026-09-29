@@ -208,11 +208,56 @@ mod tests {
             LedState::Failed,
         ];
         for s in &states { for t in (0..5000).step_by(37) { let _ = render(&ring, s, t); } }
-        // покой + откалибрована -> всё погашено
-        assert!(render(&ring, &states[1], 0).iter().all(|p| *p == Rgb::default()));
-        // покой без калибровки -> только тусклое янтарное со стороны пользователя
-        let f = render(&ring, &LedState::Normal { axes: [0; 6], calibrated: false }, 1500);
-        assert!(f.iter().all(|p| p.b == 0 && p.r <= 40));
+    }
+
+    fn ring_level(axes: [i16; 6]) -> Vec<u32> {
+        let f = render(&Ring::new(), &LedState::Normal { axes, calibrated: true }, 0);
+        f.iter().map(|p| p.r as u32 + p.g as u32 + p.b as u32).collect()
+    }
+    /// Индекс светодиода, ближайшего к углу (градусы, 0 = вправо, 90 = от себя).
+    fn led_at(deg: f32) -> usize {
+        (0..LED_COUNT).min_by(|&a, &b| {
+            let d = |i: usize| {
+                let dir = if LED_CLOCKWISE { -1.0 } else { 1.0 };
+                let ang = LED_FIRST_ANGLE_DEG + dir * 360.0 * i as f32 / LED_COUNT as f32;
+                ((ang - deg).rem_euclid(360.0)).min((deg - ang).rem_euclid(360.0))
+            };
+            d(a).total_cmp(&d(b))
+        }).unwrap()
+    }
+
+    #[test] fn led_idle_is_even_color_glow() {
+        let f = render(&Ring::new(), &LedState::Normal { axes: [0; 6], calibrated: true }, 0);
+        assert!(f.iter().all(|p| *p == f[0]), "в покое кольцо равномерное");
+        let want = |c: u8| (c as f32 * LED_IDLE_LEVEL) as u8;
+        assert_eq!((f[0].r, f[0].g, f[0].b), (want(LED_COLOR[0]), want(LED_COLOR[1]), want(LED_COLOR[2])));
+        // без калибровки — «дышит»: в разные моменты разная яркость
+        let a = render(&Ring::new(), &LedState::Normal { axes: [0; 6], calibrated: false }, 0);
+        let b = render(&Ring::new(), &LedState::Normal { axes: [0; 6], calibrated: false }, 1500);
+        assert!(b[0].r > a[0].r);
+    }
+
+    #[test] fn led_press_brighter_lift_dimmer() {
+        let idle: u32 = ring_level([0; 6]).iter().sum();
+        let press: u32 = ring_level([0, 0, 350, 0, 0, 0]).iter().sum();
+        let lift: u32 = ring_level([0, 0, -350, 0, 0, 0]).iter().sum();
+        assert!(press > idle * 2, "{press} vs {idle}");
+        assert!(lift < idle / 3, "{lift} vs {idle}");
+    }
+
+    #[test] fn led_side_of_motion_is_brighter() {
+        let (r, f, l, b) = (led_at(0.0), led_at(90.0), led_at(180.0), led_at(270.0));
+        let tilt_right = ring_level([0, 0, 0, 0, 300, 0]);
+        assert!(tilt_right[r] > tilt_right[l] + 20);
+        let tilt_away = ring_level([0, 0, 0, 300, 0, 0]);
+        assert!(tilt_away[f] > tilt_away[b] + 20);
+        let shift_left = ring_level([-300, 0, 0, 0, 0, 0]);
+        assert!(shift_left[l] > shift_left[r] + 20);
+        // поворот по часовой: пятно уходит от переднего края вправо (к 0°)
+        let cw = ring_level([0, 0, 0, 0, 0, 200]);
+        assert!(cw[led_at(45.0)] > cw[led_at(135.0)] + 10);
+        let ccw = ring_level([0, 0, 0, 0, 0, -200]);
+        assert!(ccw[led_at(135.0)] > ccw[led_at(45.0)] + 10);
     }
 
     #[test] fn led_encode_bits() {

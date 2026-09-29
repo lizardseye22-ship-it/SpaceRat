@@ -23,10 +23,7 @@ const OFF: Rgb = rgb(0, 0, 0);
 const WHITE: Rgb = rgb(255, 255, 255);
 const GREEN: Rgb = rgb(0, 255, 40);
 const RED: Rgb = rgb(255, 0, 0);
-const AMBER: Rgb = rgb(255, 110, 0);
-const CYAN: Rgb = rgb(0, 200, 255);
 const PURPLE: Rgb = rgb(170, 0, 255);
-const BLUE: Rgb = rgb(0, 40, 255);
 
 /// Что сейчас происходит — задаётся прошивкой, кольцо рисует.
 #[derive(Clone, Copy, PartialEq, Debug)]
@@ -139,41 +136,34 @@ pub fn render(ring: &Ring, state: &LedState, t_ms: u32) -> Frame {
         LedState::Boot => ring.chase(&mut f, t_ms, -1.0, WHITE),
 
         LedState::Normal { axes, calibrated } => {
+            let color = rgb(LED_COLOR[0], LED_COLOR[1], LED_COLOR[2]);
+            // Фон: ровное свечение; пока нет калибровки — медленно «дышит».
+            let mut base = LED_IDLE_LEVEL;
             if !calibrated {
-                // Не откалибрована: тусклое янтарное дыхание со стороны пользователя (270°).
-                let k = 0.15 * breathe(t_ms, 3000);
-                for (i, px) in f.iter_mut().enumerate() {
-                    *px = scale(AMBER, k * ring.lobe(i, USER));
+                base *= 0.35 + 0.65 * breathe(t_ms, 3000);
+            }
+            let mut level = [base; LED_COUNT];
+            if LED_SHOW_MOTION {
+                let n = |v: i16| (v as f32 / AXIS_LIMIT as f32).clamp(-1.0, 1.0);
+                let (tx, ty, tz, rx, ry, rz) = (n(axes[0]), n(axes[1]), n(axes[2]), n(axes[3]), n(axes[4]), n(axes[5]));
+                // Нажали (TZ+) — всё кольцо ярче до максимума, подняли — тусклее.
+                let z = if tz >= 0.0 { base + tz * (1.0 - base) } else { base * (1.0 + 0.85 * tz) };
+                // Куда сдвигаем / наклоняем — та сторона ярче, противоположная гаснет.
+                // Наклон от себя (RX+) — сторона 90°, вправо (RY+) — 0°.
+                let (t_dir, t_len) = dir_of(tx, ty);
+                let (r_dir, r_len) = dir_of(ry, rx);
+                // Поворот: пятно уезжает от переднего края (90°) в сторону вращения,
+                // на полном повороте — на 90°. RZ+ = по часовой.
+                let rot = PI / 2.0 - rz * PI / 2.0;
+                let rot_dir = Dir(libm::cosf(rot), libm::sinf(rot));
+                let side = |i: usize, d: Dir, len: f32| len * (ring.lobe(i, d) - 0.5 * ring.lobe(i, Dir(-d.0, -d.1)));
+                for (i, l) in level.iter_mut().enumerate() {
+                    *l = z + LED_DIR_GAIN
+                        * (side(i, t_dir, t_len) + side(i, r_dir, r_len) + side(i, rot_dir, libm::fabsf(rz)));
                 }
             }
-            if LED_SHOW_MOTION {
-                let n = |v: i16| v as f32 / AXIS_LIMIT as f32;
-                let (tx, ty, tz, rx, ry, rz) = (n(axes[0]), n(axes[1]), n(axes[2]), n(axes[3]), n(axes[4]), n(axes[5]));
-                let (t_dir, t_len) = dir_of(tx, ty);
-                // Наклон от себя (RX+) — лепесток на 90°, вправо (RY+) — на 0°.
-                let (r_dir, r_len) = dir_of(ry, rx);
-                let z = if tz >= 0.0 { BLUE } else { AMBER };
-                for (i, px) in f.iter_mut().enumerate() {
-                    let mut c = scale(CYAN, t_len * ring.lobe(i, t_dir));
-                    c = max(c, scale(PURPLE, r_len * ring.lobe(i, r_dir)));
-                    c = max(c, scale(z, 0.6 * libm::fabsf(tz)));
-                    *px = max(*px, c);
-                }
-                // Поворот: дуга от 90° в сторону вращения.
-                let arc = libm::fabsf(rz) * PI;
-                let sign = if rz >= 0.0 { -1.0 } else { 1.0 }; // RZ+ = по часовой
-                for (i, px) in f.iter_mut().enumerate() {
-                    let mut d = (ring.angle[i] - PI / 2.0) * sign;
-                    while d > PI {
-                        d -= 2.0 * PI;
-                    }
-                    while d < -PI {
-                        d += 2.0 * PI;
-                    }
-                    if arc > 0.0 && d >= 0.0 && d <= arc {
-                        *px = max(*px, scale(GREEN, 0.8));
-                    }
-                }
+            for (px, l) in f.iter_mut().zip(level) {
+                *px = scale(color, l);
             }
         }
 
