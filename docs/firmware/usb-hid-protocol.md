@@ -1,15 +1,18 @@
 # USB HID: как самодельная 3D-мышь притворяется SpaceMouse
 
 Сводка по открытым проектам: какие USB-идентификаторы, HID-дескрипторы, форматы
-отчётов и частоты они используют, чтобы драйвер 3Dconnexion (3DxWare) и Linux
-`spacenavd` принимали устройство за настоящую SpaceMouse.
+отчётов и частоты они используют, чтобы драйвер 3Dconnexion (3DxWare) под Windows
+принимал устройство за настоящую SpaceMouse.
+
+**Целевая платформа — только Windows + 3DxWare.** Linux не поддерживаем:
+spacenavd ниже упоминается только как источник данных.
 
 ## Источники
 
 | Проект | Что взято | Версия |
 |---|---|---|
 | [AndunHH/spacemouse](https://github.com/AndunHH/spacemouse) — основная открытая прошивка (ветка от TeachingTech «Open Source SpaceMouse», есть вариант на 8 датчиках Холла) | `spacemouse-keys/SpaceMouseHID.{h,cpp}`, `config_sample*.h`, `set_hwids.py`, `SpaceNavigator.md`, `SpaceMouseWireless.md` (снифф настоящих устройств Wireshark'ом) | коммит `e23af0e` (2026-02-21) |
-| [FreeSpacenav/spacenavd](https://github.com/FreeSpacenav/spacenavd) — драйвер для Linux | таблица VID/PID и раскладка кнопок, `src/dev.c` | коммит `6cb68b6` (2026-09-15) |
+| [FreeSpacenav/spacenavd](https://github.com/FreeSpacenav/spacenavd) — открытый драйвер (Linux), использован только как справочник | таблица VID/PID и номера битов кнопок, `src/dev.c` | коммит `6cb68b6` (2026-09-15) |
 | [ANTz wiki: 3D-Mouse device list](https://github.com/openantz/antz/wiki/3D-Mouse#device-list) | список устройств (по ссылке из AndunHH) | — |
 
 > ⚠️ VID 0x256f принадлежит 3Dconnexion. Эмуляция чужого VID/PID годится только для
@@ -32,9 +35,9 @@
 | bcdUSB | 0x0200, Full Speed |
 | bDeviceClass | 0x00 (класс задаётся в интерфейсе) |
 
-Другие PID, которые узнаёт `spacenavd` (`src/dev.c`):
+Другие PID моделей 3Dconnexion (по таблице `src/dev.c` из spacenavd), для справки:
 
-| VID:PID | Устройство | Кнопок в spacenavd |
+| VID:PID | Устройство | Кнопок |
 |---|---|---|
 | 046d:c626 | Space Navigator (Logitech-эра) | 2 |
 | 046d:c62b | SpaceMouse Pro | 15 |
@@ -44,9 +47,6 @@
 | 256f:c633 | SpaceMouse Enterprise | 31 |
 | 256f:c635 | SpaceMouse Compact | 2 |
 
-Для всех этих моделей `spacenavd` ставит флаги `DF_SWAPYZ | DF_INVYZ`: оси Y и Z
-в HID-отчёте поменяны местами и инвертированы относительно системы координат
-spacenavd.
 
 ## 2. Конфигурация USB
 
@@ -195,25 +195,16 @@ Space Navigator отправляет 3 байта: `03 01 00` (нажата кн
 
 ## 6. Absolute или relative
 
-Подробнее — в обсуждении [spacenavd#108](https://github.com/FreeSpacenav/spacenavd/issues/108).
-
-- **Absolute (0x81 0x02), по умолчанию.** Так делают современные 3Dconnexion. В Windows
-  с 3DxWare работает. В Linux ядро генерирует событие только при **изменении**
-  значения, поэтому если ручку держать неподвижно, движение в spacenavd
-  останавливается.
-- **Relative (0x81 0x06).** Так было у старого Space Navigator. События идут на каждый
-  отчёт, но ось, не вернувшаяся точно в 0, продолжает «ехать».
-- **Jiggle.** Решение AndunHH для Linux: оставить absolute и в каждом втором отчёте
-  менять младший бит ненулевых значений (`|1` / `&~1`). Тогда значение всегда
-  «меняется». Точность при этом не страдает.
-
-Рекомендация: absolute + jiggle (включаемый опцией), так работают и Windows, и Linux.
+Под Windows + 3DxWare используем **absolute** (`0x81 0x02`), как современные
+устройства 3Dconnexion и как AndunHH по умолчанию. Больше ничего делать не нужно:
+relative-вариант (`0x81 0x06`) и «jiggle» младшего бита в AndunHH придуманы
+для обхода особенностей Linux, под Windows они не нужны.
 
 ## 7. Кнопки: какие биты реально понимает драйвер
 
 Отчёт вмещает 32 кнопки, но драйвер для **SpaceMouse Pro** понимает только
-15 бит. Индексы взяты из `bnhack_smpro` в spacenavd (Linux-код `BTN_0 + N`
-= бит N) и совпадают с константами `SM_*` у AndunHH:
+15 бит. Номера битов взяты из прошивки AndunHH (константы `SM_*`, проверены
+в работе с 3DxWare под Windows). С ними совпадает таблица `bnhack_smpro` в spacenavd:
 
 | Бит | Кнопка SpaceMouse Pro | Константа AndunHH |
 |---|---|---|
@@ -233,7 +224,7 @@ Space Navigator отправляет 3 байта: `03 01 00` (нажата кн
 | 25 | Ctrl | `SM_CTRL` |
 | 26 | Rotate (lock) | `SM_ROT` |
 
-Остальные биты spacenavd игнорирует. Как 3DxWare ведёт себя с ними для модели Pro,
+Остальные биты не относятся к кнопкам модели Pro. Как 3DxWare ведёт себя с ними,
 в источниках не проверено, так что закладываться на них не стоит.
 **Практический предел — 15 кнопок**, а не 32. У SpaceMouse Enterprise (c633) 31
 кнопка, но её индексы уходят за 32 бит (например, V1–V3 = биты 102–104). Это другой,
@@ -316,4 +307,4 @@ RZ = (H0 + H2 + H6 + H8 - H1 - H3 - H7 - H9) / 4;
 - [ ] Report 1 (13 байт) каждые 8–16 мс, пока есть движение, плюс 3 нулевых после.
 - [ ] Report 3 (5 байт) только при изменении кнопок, биты по таблице §7.
 - [ ] Приём Report 4 (светодиод): прочитать и игнорировать.
-- [ ] Значения ограничены ±350, опционально jiggle для Linux.
+- [ ] Значения ограничены ±350, оси absolute.
