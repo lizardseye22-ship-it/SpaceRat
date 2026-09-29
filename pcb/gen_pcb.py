@@ -1,4 +1,4 @@
-"""SpaceRat — плата v3: односторонняя, под фоторезист (шаблон — лазерная печать на плёнке).
+"""SpaceRat — плата v4: односторонняя, под фоторезист (шаблон — лазерная печать на плёнке).
 
 Blue Pill ставится на гнёзда со стороны БЕЗ меди, ноги паяются на медь; USB-разъём
 выступает за левый край. Всё остальное — на стороне меди: SMD 1206 (C1/C2, RC-фильтры
@@ -251,14 +251,14 @@ def film(ox, oy, negative):
             o.append(f'<circle cx="{x:.3f}" cy="{y:.3f}" r="0.3" fill="{bg}"/>')
     tx, ty = tf(*TEXT_AT)
     o.append(f'<text transform="translate({tx:.2f} {ty:.2f}) scale(-1 1)" font-size="1.4" font-weight="bold" '
-             f'text-anchor="middle" fill="{bg}">SPACERAT v3</text>')
+             f'text-anchor="middle" fill="{bg}">SPACERAT v4</text>')
     return o
 
 
 o = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{PAGE_W}mm" height="{PAGE_H}mm" '
      f'viewBox="0 0 {PAGE_W} {PAGE_H}" font-family="DejaVu Sans, Arial, sans-serif">',
      f'<rect width="{PAGE_W}" height="{PAGE_H}" fill="#fff"/>',
-     '<text x="8" y="8" font-size="3.4" font-weight="bold">SpaceRat v3 — шаблоны на плёнку, 1:1</text>',
+     '<text x="8" y="8" font-size="3.4" font-weight="bold">SpaceRat v4 — шаблоны на плёнку, 1:1</text>',
      '<text x="8" y="13" font-size="2.6">Печать 100 %, без масштабирования и БЕЗ зеркала. Плёнку класть тонером к меди.</text>',
      '<text x="8" y="17.5" font-size="2.6">Надпись SPACERAT на плёнке зеркальная — так и нужно; на готовой меди читается прямо.</text>']
 col = (8 + M, 8 + M + W + 2 * M + 14)
@@ -302,7 +302,7 @@ a = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{AW}" height="{AH}" viewBo
 .lab{font-size:11.5px;fill:#1f1e1b;font-weight:bold}.pin{font-size:10px;fill:#123a73;font-weight:bold}
 .ref{font-size:10px;fill:#fff;font-weight:bold}</style>''',
      f'<rect width="{AW}" height="{AH}" fill="#faf8f3"/>',
-     '<text x="30" y="42" class="t b" style="font-size:24px">SpaceRat — плата v3: сборка</text>',
+     '<text x="30" y="42" class="t b" style="font-size:24px">SpaceRat — плата v4: сборка</text>',
      f'<text x="30" y="70" class="t" style="fill:#55524c">Односторонняя {W:.1f}×{H:.1f} мм, фоторезист. '
      'Blue Pill — со стороны без меди, USB выступает за левый край; ноги паяются на медь.</text>']
 

@@ -3,7 +3,7 @@
 .lab{font-size:11.5px;fill:#1f1e1b;font-weight:bold}.pin{font-size:10px;fill:#123a73;font-weight:bold}
 .ref{font-size:10px;fill:#fff;font-weight:bold}</style>
 <rect width="2021" height="981" fill="#faf8f3"/>
-<text x="30" y="42" class="t b" style="font-size:24px">SpaceRat — плата v3: сборка</text>
+<text x="30" y="42" class="t b" style="font-size:24px">SpaceRat — плата v4: сборка</text>
 <text x="30" y="70" class="t" style="fill:#55524c">Односторонняя 52.2×25.1 мм, фоторезист. Blue Pill — со стороны без меди, USB выступает за левый край; ноги паяются на медь.</text>
 <text x="90.0" y="125" class="t b">Вид сверху — сторона Blue Pill (меди нет)</text>
 <rect x="90.0" y="220.0" width="835.52" height="401.6" fill="#e3dccb" stroke="#6b5a2e" stroke-width="1.5"/>
