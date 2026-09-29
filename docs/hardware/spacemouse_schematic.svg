@@ -38,19 +38,19 @@
 <text x="442" y="995" class="m" text-anchor="end">G</text>
 <path class="v" d="M450 200 H1000 V895"/>
 <path class="g" d="M450 990 H1180 V240"/>
-<text x="620" y="192" class="t b" style="fill:#c2410c">+3V3</text>
+<text x="760" y="192" class="t b" style="fill:#c2410c">+3V3</text>
 <text x="620" y="1012" class="t b" style="fill:#1d4e89">GND</text>
-<path class="v" d="M1000 240 H1086"/><path class="g" d="M1094 240 H1180"/>
-<path class="w" d="M1086 229 V251 M1094 229 V251" style="stroke-width:3"/>
-<text x="1090" y="224" class="s" text-anchor="middle">C1 10 мкФ</text>
-<circle cx="1000" cy="240" r="4.5" fill="#c2410c"/>
-<circle cx="1180" cy="240" r="4.5" fill="#1d4e89"/>
-<path class="v" d="M1000 262 H1086"/><path class="g" d="M1094 262 H1180"/>
-<path class="w" d="M1086 251 V273 M1094 251 V273" style="stroke-width:3"/>
-<text x="1090" y="246" class="s" text-anchor="middle"></text>
-<text x="1090" y="288" class="s" text-anchor="middle">C2 100 нФ  (у Blue Pill)</text>
-<circle cx="1000" cy="262" r="4.5" fill="#c2410c"/>
-<circle cx="1180" cy="262" r="4.5" fill="#1d4e89"/>
+<circle cx="490" cy="200" r="4.5" fill="#c2410c"/>
+<path class="w" d="M490 200 V213 M490 219 V230"/>
+<path class="w" d="M477 213 H503 M477 219 H503" style="stroke-width:3"/>
+<text x="470" y="211" class="s">+</text>
+<path class="w" d="M478 230 H502 M483 235 H497 M487 240 H493"/>
+<text x="508" y="226" class="s">C1 10 мкФ</text>
+<circle cx="620" cy="200" r="4.5" fill="#c2410c"/>
+<path class="w" d="M620 200 V213 M620 219 V230"/>
+<path class="w" d="M607 213 H633 M607 219 H633" style="stroke-width:3"/>
+<path class="w" d="M608 230 H632 M613 235 H627 M617 240 H623"/>
+<text x="638" y="226" class="s">C2 100 нФ</text>
 <text x="442" y="315" class="m" text-anchor="end">PA0</text>
 <path class="w" d="M450 310 H510 M570 310 H760"/>
 <rect x="510" y="303" width="60" height="14" fill="#fff" stroke="#2b2a27" stroke-width="2"/>
@@ -261,19 +261,23 @@
 <text x="1350" y="304" class="s">маркировкой к себе, слева направо:</text>
 <text x="1350" y="326" class="m">1 VCC · 2 GND · 3 OUT</text>
 <text x="1350" y="360" class="t b">Где ставить</text>
-<text x="1350" y="382" class="s">C1, C2 — у Blue Pill, на входе шины</text>
-<text x="1350" y="404" class="s">C3–C6 — прямо у ножек своей пары</text>
-<text x="1350" y="426" class="s">R1–R8, C7–C14 — у Blue Pill,</text>
-<text x="1350" y="448" class="s">опционально (RC-фильтр ~16 кГц)</text>
-<text x="1350" y="482" class="t b">Питание</text>
-<text x="1350" y="504" class="s">STM32 ~30–50 мА</text>
-<text x="1350" y="526" class="s">8 × DRV5055 48–80 мА</text>
-<text x="1350" y="548" class="s">LED ~2–5 мА</text>
-<text x="1350" y="570" class="t b">Итого ≈ 80–135 мА — USB хватает</text>
-<text x="1350" y="592" class="s">LDO Blue Pill 150–300 мА, запас есть</text>
-<text x="1350" y="626" class="t b">Важно</text>
-<text x="1350" y="648" class="s">Датчики — только от 3.3 В, не от 5 В</text>
-<text x="1350" y="670" class="s">(иначе выход > 3.3 В на входе АЦП)</text>
-<text x="1350" y="692" class="s">Если ПК не видит USB: 1.8 кОм</text>
-<text x="1350" y="714" class="s">между PA12 и 3.3 В (фикс R10)</text>
+<text x="1350" y="382" class="s">Компоненты нарисованы там,</text>
+<text x="1350" y="404" class="s">где они стоят физически:</text>
+<text x="1350" y="426" class="s">C1, C2 — у пина 3.3 Blue Pill</text>
+<text x="1350" y="448" class="s">C3–C6 — у ножек своей пары</text>
+<text x="1350" y="470" class="s">R1–R8, C7–C14 — у пинов PA0–PA7</text>
+<text x="1350" y="492" class="s">(RC-фильтр, опционально)</text>
+<path class="w" d="M1346 502 H1370 M1351 507 H1365 M1355 512 H1361"/>
+<text x="1378" y="514" class="s">— земля (GND)</text>
+<text x="1350" y="548" class="t b">Питание</text>
+<text x="1350" y="570" class="s">STM32 ~30–50 мА</text>
+<text x="1350" y="592" class="s">8 × DRV5055 48–80 мА</text>
+<text x="1350" y="614" class="s">LED ~2–5 мА</text>
+<text x="1350" y="636" class="t b">Итого ≈ 80–135 мА — USB хватает</text>
+<text x="1350" y="658" class="s">LDO Blue Pill 150–300 мА, запас есть</text>
+<text x="1350" y="692" class="t b">Важно</text>
+<text x="1350" y="714" class="s">Датчики — только от 3.3 В, не от 5 В</text>
+<text x="1350" y="736" class="s">(иначе выход > 3.3 В на входе АЦП)</text>
+<text x="1350" y="758" class="s">Если ПК не видит USB: 1.8 кОм</text>
+<text x="1350" y="780" class="s">между PA12 и 3.3 В (фикс R10)</text>
 </svg>

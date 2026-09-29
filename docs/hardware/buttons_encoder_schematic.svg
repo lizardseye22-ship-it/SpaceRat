@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1380" height="820" viewBox="0 0 1380 820" font-family="DejaVu Sans, Arial, sans-serif">
+<style>
+.w{stroke:#2b2a27;stroke-width:2;fill:none}
+.g{stroke:#1d4e89;stroke-width:2.5;fill:none}
+.box{fill:#fff;stroke:#2b2a27;stroke-width:2}
+.t{font-size:14px;fill:#2b2a27}.s{font-size:12px;fill:#55524c}
+.m{font-family:DejaVu Sans Mono,monospace;font-size:13px;fill:#2b2a27}.b{font-weight:bold}
+.band{fill:#efebe3}
+</style>
+<rect width="1380" height="820" fill="#faf8f3"/>
+<text x="30" y="50" class="t b" style="font-size:26px">Hall SpaceMouse — энкодер и 5 кнопок</text>
+<text x="30" y="78" class="t" style="fill:#55524c">EC11 + 5 клавиатурных свичей (Cherry MX / Kailh) · без подсветки · внутренние pull-up STM32</text>
+<rect class="band" x="600" y="140" width="460" height="260" rx="10"/>
+<text x="616" y="164" class="t b">Энкодер (на корпусе)</text>
+<rect class="band" x="600" y="420" width="460" height="330" rx="10"/>
+<text x="616" y="444" class="t b">Кнопки хоткеев (на корпусе)</text>
+<rect x="60" y="120" width="260" height="660" rx="8" fill="#e9eef5" stroke="#2b2a27" stroke-width="2"/>
+<text x="170" y="430" class="t b" text-anchor="middle" style="font-size:18px">Blue Pill</text>
+<text x="170" y="452" class="s" text-anchor="middle">STM32F103C8T6</text>
+<text x="170" y="472" class="s" text-anchor="middle">вход + внутр. pull-up</text>
+<text x="170" y="492" class="s" text-anchor="middle">TIM4 — режим энкодера</text>
+<path class="g" d="M320 740 H1000 V200"/>
+<text x="312" y="745" class="m" text-anchor="end">G</text>
+<text x="640" y="768" class="t b" style="fill:#1d4e89">GND</text>
+<rect class="box" x="760" y="180" width="120" height="190" rx="8"/>
+<circle cx="820" cy="285" r="26" fill="none" stroke="#2b2a27" stroke-width="2"/>
+<path class="w" d="M820 285 L834 270"/>
+<text x="820" y="232" class="t b" text-anchor="middle">EC11</text>
+<text x="820" y="355" class="s" text-anchor="middle">ENC1</text>
+<text x="312" y="205" class="m" text-anchor="end">PB5</text>
+<path class="w" d="M320 200 H760"/>
+<text x="766" y="204" class="s" style="font-size:11px">S1</text>
+<text x="312" y="265" class="m" text-anchor="end">PB6</text>
+<path class="w" d="M320 260 H760"/>
+<text x="766" y="264" class="s" style="font-size:11px">A</text>
+<text x="312" y="345" class="m" text-anchor="end">PB7</text>
+<path class="w" d="M320 340 H760"/>
+<text x="766" y="344" class="s" style="font-size:11px">B</text>
+<text x="874" y="204" class="s" text-anchor="end" style="font-size:11px">S2</text>
+<path class="g" d="M880 200 H1000"/>
+<circle cx="1000" cy="200" r="4.5" fill="#1d4e89"/>
+<text x="874" y="304" class="s" text-anchor="end" style="font-size:11px">C</text>
+<path class="g" d="M880 300 H1000"/>
+<circle cx="1000" cy="300" r="4.5" fill="#1d4e89"/>
+<circle cx="720" cy="260" r="4.5" fill="#2b2a27"/>
+<path class="w" d="M720 260 V273 M720 279 V288"/>
+<path class="w" d="M708 273 H732 M708 279 H732" style="stroke-width:3"/>
+<path class="w" d="M708 288 H732 M713 293 H727 M717 298 H723"/>
+<text x="702" y="282" class="s" text-anchor="end">C1 10 нФ</text>
+<circle cx="720" cy="340" r="4.5" fill="#2b2a27"/>
+<path class="w" d="M720 340 V353 M720 359 V368"/>
+<path class="w" d="M708 353 H732 M708 359 H732" style="stroke-width:3"/>
+<path class="w" d="M708 368 H732 M713 373 H727 M717 378 H723"/>
+<text x="702" y="362" class="s" text-anchor="end">C2 10 нФ</text>
+<text x="616" y="392" class="s">C1, C2 — на выводах A/B энкодера, опционально</text>
+<text x="312" y="495" class="m" text-anchor="end">PB8</text>
+<path class="w" d="M320 490 H795"/>
+<circle cx="800" cy="490" r="4.5" fill="#fff" stroke="#2b2a27" stroke-width="2"/>
+<circle cx="860" cy="490" r="4.5" fill="#fff" stroke="#2b2a27" stroke-width="2"/>
+<path class="w" d="M804 487 L858 472"/>
+<path class="w" d="M830 478 V466 M822 466 H838"/>
+<text x="760" y="482" class="s" text-anchor="end">SW1</text>
+<path class="g" d="M865 490 H1000"/>
+<circle cx="1000" cy="490" r="4.5" fill="#1d4e89"/>
+<text x="880" y="482" class="s">хоткей 1</text>
+<text x="312" y="545" class="m" text-anchor="end">PB12</text>
+<path class="w" d="M320 540 H795"/>
+<circle cx="800" cy="540" r="4.5" fill="#fff" stroke="#2b2a27" stroke-width="2"/>
+<circle cx="860" cy="540" r="4.5" fill="#fff" stroke="#2b2a27" stroke-width="2"/>
+<path class="w" d="M804 537 L858 522"/>
+<path class="w" d="M830 528 V516 M822 516 H838"/>
+<text x="760" y="532" class="s" text-anchor="end">SW2</text>
+<path class="g" d="M865 540 H1000"/>
+<circle cx="1000" cy="540" r="4.5" fill="#1d4e89"/>
+<text x="880" y="532" class="s">хоткей 2</text>
+<text x="312" y="595" class="m" text-anchor="end">PB13</text>
+<path class="w" d="M320 590 H795"/>
+<circle cx="800" cy="590" r="4.5" fill="#fff" stroke="#2b2a27" stroke-width="2"/>
+<circle cx="860" cy="590" r="4.5" fill="#fff" stroke="#2b2a27" stroke-width="2"/>
+<path class="w" d="M804 587 L858 572"/>
+<path class="w" d="M830 578 V566 M822 566 H838"/>
+<text x="760" y="582" class="s" text-anchor="end">SW3</text>
+<path class="g" d="M865 590 H1000"/>
+<circle cx="1000" cy="590" r="4.5" fill="#1d4e89"/>
+<text x="880" y="582" class="s">хоткей 3</text>
+<text x="312" y="645" class="m" text-anchor="end">PB14</text>
+<path class="w" d="M320 640 H795"/>
+<circle cx="800" cy="640" r="4.5" fill="#fff" stroke="#2b2a27" stroke-width="2"/>
+<circle cx="860" cy="640" r="4.5" fill="#fff" stroke="#2b2a27" stroke-width="2"/>
+<path class="w" d="M804 637 L858 622"/>
+<path class="w" d="M830 628 V616 M822 616 H838"/>
+<text x="760" y="632" class="s" text-anchor="end">SW4</text>
+<path class="g" d="M865 640 H1000"/>
+<circle cx="1000" cy="640" r="4.5" fill="#1d4e89"/>
+<text x="880" y="632" class="s">хоткей 4</text>
+<text x="312" y="695" class="m" text-anchor="end">PB15</text>
+<path class="w" d="M320 690 H795"/>
+<circle cx="800" cy="690" r="4.5" fill="#fff" stroke="#2b2a27" stroke-width="2"/>
+<circle cx="860" cy="690" r="4.5" fill="#fff" stroke="#2b2a27" stroke-width="2"/>
+<path class="w" d="M804 687 L858 672"/>
+<path class="w" d="M830 678 V666 M822 666 H838"/>
+<text x="760" y="682" class="s" text-anchor="end">SW5</text>
+<path class="g" d="M865 690 H1000"/>
+<circle cx="1000" cy="690" r="4.5" fill="#1d4e89"/>
+<text x="880" y="682" class="s">хоткей 5</text>
+<text x="1090" y="140" class="t b">Хоткеи</text>
+<text x="1090" y="162" class="s">SW1–SW5 → хоткеи 1–5</text>
+<text x="1090" y="184" class="s">ENC вправо → хоткей 6</text>
+<text x="1090" y="206" class="s">ENC влево → хоткей 7</text>
+<text x="1090" y="228" class="s">ENC нажатие → хоткей 8</text>
+<text x="1090" y="250" class="s">(импульс 20–30 мс на щелчок)</text>
+<text x="1090" y="284" class="t b">Обвязка</text>
+<text x="1090" y="306" class="s">Кнопки: вывод → пин, вывод → GND</text>
+<text x="1090" y="328" class="s">Pull-up — внутренние, в прошивке</text>
+<text x="1090" y="350" class="s">Дребезг — программно, 5–10 мс</text>
+<text x="1090" y="372" class="s">Внешних резисторов нет</text>
+<text x="1090" y="406" class="t b">EC11, вид снизу</text>
+<text x="1090" y="428" class="s">3 вывода: A · C · B</text>
+<text x="1090" y="450" class="s">(C — средний, на GND)</text>
+<text x="1090" y="472" class="s">2 вывода: S1 · S2 — кнопка</text>
+<text x="1090" y="506" class="t b">Не использовать</text>
+<text x="1090" y="528" class="s">PB2 (BOOT1), PB3/PB4/PA15 (JTAG)</text>
+<text x="1090" y="550" class="s">PA11/PA12 (USB), PA13/PA14 (SWD)</text>
+<text x="1090" y="572" class="s">PA0–PA7 заняты датчиками</text>
+<text x="1090" y="606" class="t b">Обозначения</text>
+<circle cx="1096" cy="623" r="4.5" fill="#2b2a27"/>
+<text x="1110" y="628" class="s">— соединение</text>
+<path class="w" d="M1086 638 H1110 M1091 643 H1105 M1095 648 H1101"/>
+<text x="1118" y="650" class="s">— земля (GND)</text>
+<path class="g" d="M1090 667 H1120"/><text x="1130" y="672" class="s">шина GND</text>
+</svg>
