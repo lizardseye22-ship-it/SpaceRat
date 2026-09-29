@@ -83,13 +83,13 @@ pub const ENC_BUTTON_BIT: u8 = BIT_FRONT;
 pub const ENC_CW_BIT: u8 = BIT_TOP;
 pub const ENC_CCW_BIT: u8 = BIT_RIGHT;
 
-/// Период опроса кнопок и энкодера, мс.
+/// Период опроса кнопок и счётчика энкодера, мс.
 pub const INPUT_PERIOD_MS: u64 = 1;
 
 /// Антидребезг кнопок: столько мс подряд в новом состоянии.
 pub const DEBOUNCE_MS: u8 = 5;
 
-/// Переходов квадратуры на один щелчок (EC11 обычно 4, у некоторых 2).
+/// Отсчётов TIM4 (режим энкодера 3, все 4 фронта) на один щелчок: EC11 обычно 4, у некоторых 2.
 pub const ENC_STEPS_PER_DETENT: i8 = 4;
 /// Поменять направление энкодера.
 pub const ENC_REVERSE: bool = false;

@@ -10,20 +10,28 @@ mod tests {
     use super::sensors::*;
     use super::config::*;
 
-    fn seq(enc: &mut Encoder, states: &[(bool,bool)]) -> i32 {
-        states.iter().map(|&(a,b)| enc.update(a,b) as i32).sum()
+    #[test] fn encoder_counter_detents() {
+        let steps = ENC_STEPS_PER_DETENT as u16;
+        let mut e = EncoderCounter::new(100);
+        assert_eq!(e.update(100 + steps - 1), 0);      // не дошли до щелчка
+        let cw = e.update(100 + steps);                  // полный щелчок
+        assert_eq!(cw.abs(), 1);
+        assert_eq!(e.update(100), -cw);                  // обратно
+        assert_eq!(e.update(100 + 3 * steps), 3 * cw);  // три щелчка за раз
     }
-    #[test] fn encoder_one_detent_each_way() {
-        let mut e = Encoder::new(true,true);
-        // 11 -> 01 -> 00 -> 10 -> 11 : one full cycle
-        let cw = seq(&mut e, &[(false,true),(false,false),(true,false),(true,true)]);
-        let ccw = seq(&mut e, &[(true,false),(false,false),(false,true),(true,true)]);
-        assert_eq!(cw.abs(), 1); assert_eq!(ccw, -cw);
+    #[test] fn encoder_counter_bounce_and_wrap() {
+        let mut e = EncoderCounter::new(0);
+        for _ in 0..20 { assert_eq!(e.update(1), 0); assert_eq!(e.update(0), 0); } // дребезг ±1
+        let mut e = EncoderCounter::new(65534);
+        let steps = ENC_STEPS_PER_DETENT as u16;
+        assert_eq!(e.update(65534u16.wrapping_add(steps)).abs(), 1); // через переполнение
     }
-    #[test] fn encoder_bounce_ignored() {
-        let mut e = Encoder::new(true,true);
-        let n = seq(&mut e, &[(false,true),(true,true),(false,true),(true,true),(false,true),(true,true)]);
-        assert_eq!(n, 0);
+    #[test] fn pulser_queue_limit() {
+        let mut p = EncoderPulser::new();
+        p.push(100);
+        let presses = core::iter::once(0).chain((0..10_000).map(|_| p.tick())).collect::<Vec<_>>()
+            .windows(2).filter(|w| w[0] == 0 && w[1] != 0).count();
+        assert_eq!(presses, ENC_QUEUE_MAX as usize);
     }
     #[test] fn pulser_press_then_gap() {
         let mut p = EncoderPulser::new();

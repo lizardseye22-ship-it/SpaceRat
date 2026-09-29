@@ -1,4 +1,4 @@
-//! Кнопки и энкодер: антидребезг, декодирование квадратуры,
+//! Кнопки и энкодер: антидребезг, щелчки по счётчику TIM4,
 //! превращение щелчков энкодера в короткие «нажатия» кнопок.
 //! Вызывается раз в INPUT_PERIOD_MS.
 
@@ -27,44 +27,30 @@ impl Debouncer {
     }
 }
 
-/// Декодер квадратуры по таблице переходов. Недопустимые переходы
-/// (дребезг, пропуск) игнорируются.
-#[derive(Default)]
-pub struct Encoder {
-    prev: u8,
-    acc: i8,
+/// Щелчки энкодера по счётчику аппаратного декодера (TIM4, режим энкодера 3:
+/// считаются все 4 фронта за цикл). Дребезг одного канала даёт +1/−1 и
+/// взаимно гасится самим счётчиком.
+pub struct EncoderCounter {
+    last: u16,
+    acc: i32,
 }
 
-impl Encoder {
-    // Индекс: (prev << 2) | cur, где состояние = (A << 1) | B.
-    const TABLE: [i8; 16] = [0, -1, 1, 0, 1, 0, 0, -1, -1, 0, 0, 1, 0, 1, -1, 0];
-
-    pub fn new(a: bool, b: bool) -> Self {
-        Self { prev: state(a, b), acc: 0 }
+impl EncoderCounter {
+    pub fn new(count: u16) -> Self {
+        Self { last: count, acc: 0 }
     }
 
-    /// Возвращает +1 / −1 на каждый полный щелчок, иначе 0.
-    pub fn update(&mut self, a: bool, b: bool) -> i8 {
-        let cur = state(a, b);
-        if cur == self.prev {
-            return 0;
-        }
-        self.acc += Self::TABLE[((self.prev << 2) | cur) as usize];
-        self.prev = cur;
-        if self.acc >= ENC_STEPS_PER_DETENT {
-            self.acc = 0;
-            if ENC_REVERSE { -1 } else { 1 }
-        } else if self.acc <= -ENC_STEPS_PER_DETENT {
-            self.acc = 0;
-            if ENC_REVERSE { 1 } else { -1 }
-        } else {
-            0
-        }
+    /// По новому значению счётчика возвращает число полных щелчков:
+    /// > 0 — по часовой, < 0 — против. Переполнение счётчика учитывается.
+    pub fn update(&mut self, count: u16) -> i32 {
+        let delta = count.wrapping_sub(self.last) as i16 as i32;
+        self.last = count;
+        self.acc += if ENC_REVERSE { -delta } else { delta };
+        let steps = ENC_STEPS_PER_DETENT as i32;
+        let detents = self.acc / steps;
+        self.acc -= detents * steps;
+        detents
     }
-}
-
-fn state(a: bool, b: bool) -> u8 {
-    ((a as u8) << 1) | (b as u8)
 }
 
 enum PulsePhase {
@@ -85,11 +71,17 @@ impl EncoderPulser {
         Self { cw: 0, ccw: 0, phase: PulsePhase::Idle }
     }
 
-    pub fn push(&mut self, step: i8) {
-        match step {
-            1 if self.cw + self.ccw < ENC_QUEUE_MAX => self.cw += 1,
-            -1 if self.cw + self.ccw < ENC_QUEUE_MAX => self.ccw += 1,
-            _ => {}
+    /// Добавить щелчки в очередь (> 0 — по часовой, < 0 — против).
+    pub fn push(&mut self, detents: i32) {
+        for _ in 0..detents.unsigned_abs() {
+            if self.cw + self.ccw >= ENC_QUEUE_MAX {
+                break;
+            }
+            if detents > 0 {
+                self.cw += 1;
+            } else {
+                self.ccw += 1;
+            }
         }
     }
 

@@ -19,7 +19,9 @@ use embassy_executor::Spawner;
 use embassy_futures::join::join5;
 use embassy_stm32::adc::{Adc, AdcChannel, AnyAdcChannel, SampleTime};
 use embassy_stm32::gpio::{Input, Level, Output, Pull, Speed};
+use embassy_stm32::pac::timer::vals::{Ckd, FilterValue};
 use embassy_stm32::peripherals::ADC1;
+use embassy_stm32::timer::qei::{Qei, QeiMode};
 use embassy_stm32::time::Hertz;
 use embassy_stm32::usb::Driver;
 use embassy_stm32::{Config, adc, bind_interrupts, peripherals, usb};
@@ -29,7 +31,7 @@ use embassy_usb::class::hid::{HidBootProtocol, HidReaderWriter, HidSubclass, Sta
 use {defmt_rtt as _, panic_probe as _};
 
 use crate::config::*;
-use crate::input::{Debouncer, Encoder, EncoderPulser};
+use crate::input::{Debouncer, EncoderCounter, EncoderPulser};
 use crate::sensors::{Processor, SENSORS};
 
 bind_interrupts!(struct Irqs {
@@ -169,11 +171,29 @@ async fn main(_spawner: Spawner) {
             Input::new(p.PB15, Pull::Up),
         ];
         let enc_button = Input::new(p.PB5, Pull::Up);
-        let enc_a = Input::new(p.PB6, Pull::Up);
-        let enc_b = Input::new(p.PB7, Pull::Up);
+
+        // Энкодер: TIM4 в режиме энкодера, PB6 = CH1 (A), PB7 = CH2 (B), подтяжки внутренние.
+        // Системное время Embassy перенесено на TIM3 (Cargo.toml: time-driver-tim3).
+        let mut qei_config = embassy_stm32::timer::qei::Config::default();
+        qei_config.ch1_pull = Pull::Up;
+        qei_config.ch2_pull = Pull::Up;
+        qei_config.mode = QeiMode::Mode3;
+        let qei = Qei::new(p.TIM4, p.PB6, p.PB7, qei_config);
+        // Максимальный цифровой фильтр входов: fDTS = 72 МГц / 4, выборка fDTS / 32, 8 подряд.
+        // Отсекает короткие иголки; дребезг контактов гасится самим счётом квадратуры.
+        {
+            let tim = embassy_stm32::pac::TIM4;
+            tim.cr1().modify(|w| w.set_cen(false));
+            tim.cr1().modify(|w| w.set_ckd(Ckd::DIV4));
+            tim.ccmr_input(0).modify(|w| {
+                w.set_icf(0, FilterValue::FDTS_DIV32_N8);
+                w.set_icf(1, FilterValue::FDTS_DIV32_N8);
+            });
+            tim.cr1().modify(|w| w.set_cen(true));
+        }
 
         let mut debounce = [Debouncer::default(); 6];
-        let mut encoder = Encoder::new(enc_a.is_high(), enc_b.is_high());
+        let mut encoder = EncoderCounter::new(qei.count());
         let mut pulser = EncoderPulser::new();
 
         let mut ticker = Ticker::every(Duration::from_millis(INPUT_PERIOD_MS));
@@ -188,7 +208,7 @@ async fn main(_spawner: Spawner) {
             if debounce[5].update(enc_button.is_low()) {
                 bits |= 1 << ENC_BUTTON_BIT;
             }
-            pulser.push(encoder.update(enc_a.is_high(), enc_b.is_high()));
+            pulser.push(encoder.update(qei.count()));
             bits |= pulser.tick();
             keys.set(bits);
         }
