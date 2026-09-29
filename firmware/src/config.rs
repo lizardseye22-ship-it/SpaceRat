@@ -125,10 +125,10 @@ pub const BIT_TOP: u8 = 2;
 pub const BIT_RIGHT: u8 = 4;
 pub const BIT_FRONT: u8 = 5;
 
-/// Биты для кнопок SW1…SW5 (PB8, PB12, PB13, PB14, PB15).
+/// Биты для кнопок SW1…SW5 (PB5, PB6, PB7, PB8, PB9).
 pub const BUTTON_BITS: [u8; 5] = [BIT_1, BIT_2, BIT_3, BIT_4, BIT_FIT];
 
-/// Бит для нажатия на вал энкодера (PB5).
+/// Бит для нажатия на вал энкодера (PB4).
 pub const ENC_BUTTON_BIT: u8 = BIT_FRONT;
 /// Биты для щелчка энкодера по / против часовой стрелки.
 pub const ENC_CW_BIT: u8 = BIT_TOP;
@@ -140,7 +140,7 @@ pub const INPUT_PERIOD_MS: u64 = 1;
 /// Антидребезг кнопок: столько мс подряд в новом состоянии.
 pub const DEBOUNCE_MS: u8 = 5;
 
-/// Отсчётов TIM4 (режим энкодера 3, все 4 фронта) на один щелчок: EC11 обычно 4, у некоторых 2.
+/// Отсчётов TIM2 (режим энкодера 3, все 4 фронта) на один щелчок: EC11 обычно 4, у некоторых 2.
 pub const ENC_STEPS_PER_DETENT: i8 = 4;
 /// Поменять направление энкодера.
 pub const ENC_REVERSE: bool = false;

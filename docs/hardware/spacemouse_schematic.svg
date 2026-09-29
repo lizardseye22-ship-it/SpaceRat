@@ -52,14 +52,7 @@
 <path class="w" d="M608 230 H632 M613 235 H627 M617 240 H623"/>
 <text x="638" y="226" class="s">C2 100 нФ</text>
 <text x="442" y="315" class="m" text-anchor="end">PA0</text>
-<path class="w" d="M450 310 H510 M570 310 H760"/>
-<rect x="510" y="303" width="60" height="14" fill="#fff" stroke="#2b2a27" stroke-width="2"/>
-<text x="540" y="298" class="s" text-anchor="middle">R1 1 кОм</text>
-<circle cx="620" cy="310" r="4.5" fill="#2b2a27"/>
-<path class="w" d="M620 310 V323 M620 329 V338"/>
-<path class="w" d="M607 323 H633 M607 329 H633" style="stroke-width:3"/>
-<path class="w" d="M608 338 H632 M613 343 H627 M617 348 H623"/>
-<text x="640" y="334" class="s">C7 10 нФ</text>
+<path class="w" d="M450 310 H760"/>
 <rect class="box" x="760" y="280" width="140" height="60" rx="5"/>
 <text x="830" y="306" class="t b" text-anchor="middle">U1 · A</text>
 <text x="830" y="324" class="s" text-anchor="middle">DRV5055</text>
@@ -74,14 +67,7 @@
 <circle cx="1000" cy="295" r="4.5" fill="#c2410c"/>
 <circle cx="1180" cy="325" r="4.5" fill="#1d4e89"/>
 <text x="442" y="405" class="m" text-anchor="end">PA1</text>
-<path class="w" d="M450 400 H510 M570 400 H760"/>
-<rect x="510" y="393" width="60" height="14" fill="#fff" stroke="#2b2a27" stroke-width="2"/>
-<text x="540" y="388" class="s" text-anchor="middle">R2 1 кОм</text>
-<circle cx="620" cy="400" r="4.5" fill="#2b2a27"/>
-<path class="w" d="M620 400 V413 M620 419 V428"/>
-<path class="w" d="M607 413 H633 M607 419 H633" style="stroke-width:3"/>
-<path class="w" d="M608 428 H632 M613 433 H627 M617 438 H623"/>
-<text x="640" y="424" class="s">C8 10 нФ</text>
+<path class="w" d="M450 400 H760"/>
 <rect class="box" x="760" y="370" width="140" height="60" rx="5"/>
 <text x="830" y="396" class="t b" text-anchor="middle">U2 · B</text>
 <text x="830" y="414" class="s" text-anchor="middle">DRV5055</text>
@@ -96,14 +82,7 @@
 <circle cx="1000" cy="385" r="4.5" fill="#c2410c"/>
 <circle cx="1180" cy="415" r="4.5" fill="#1d4e89"/>
 <text x="442" y="485" class="m" text-anchor="end">PA2</text>
-<path class="w" d="M450 480 H510 M570 480 H760"/>
-<rect x="510" y="473" width="60" height="14" fill="#fff" stroke="#2b2a27" stroke-width="2"/>
-<text x="540" y="468" class="s" text-anchor="middle">R3 1 кОм</text>
-<circle cx="620" cy="480" r="4.5" fill="#2b2a27"/>
-<path class="w" d="M620 480 V493 M620 499 V508"/>
-<path class="w" d="M607 493 H633 M607 499 H633" style="stroke-width:3"/>
-<path class="w" d="M608 508 H632 M613 513 H627 M617 518 H623"/>
-<text x="640" y="504" class="s">C9 10 нФ</text>
+<path class="w" d="M450 480 H760"/>
 <rect class="box" x="760" y="450" width="140" height="60" rx="5"/>
 <text x="830" y="476" class="t b" text-anchor="middle">U3 · A</text>
 <text x="830" y="494" class="s" text-anchor="middle">DRV5055</text>
@@ -118,14 +97,7 @@
 <circle cx="1000" cy="465" r="4.5" fill="#c2410c"/>
 <circle cx="1180" cy="495" r="4.5" fill="#1d4e89"/>
 <text x="442" y="575" class="m" text-anchor="end">PA3</text>
-<path class="w" d="M450 570 H510 M570 570 H760"/>
-<rect x="510" y="563" width="60" height="14" fill="#fff" stroke="#2b2a27" stroke-width="2"/>
-<text x="540" y="558" class="s" text-anchor="middle">R4 1 кОм</text>
-<circle cx="620" cy="570" r="4.5" fill="#2b2a27"/>
-<path class="w" d="M620 570 V583 M620 589 V598"/>
-<path class="w" d="M607 583 H633 M607 589 H633" style="stroke-width:3"/>
-<path class="w" d="M608 598 H632 M613 603 H627 M617 608 H623"/>
-<text x="640" y="594" class="s">C10 10 нФ</text>
+<path class="w" d="M450 570 H760"/>
 <rect class="box" x="760" y="540" width="140" height="60" rx="5"/>
 <text x="830" y="566" class="t b" text-anchor="middle">U4 · B</text>
 <text x="830" y="584" class="s" text-anchor="middle">DRV5055</text>
@@ -140,14 +112,7 @@
 <circle cx="1000" cy="555" r="4.5" fill="#c2410c"/>
 <circle cx="1180" cy="585" r="4.5" fill="#1d4e89"/>
 <text x="442" y="655" class="m" text-anchor="end">PA4</text>
-<path class="w" d="M450 650 H510 M570 650 H760"/>
-<rect x="510" y="643" width="60" height="14" fill="#fff" stroke="#2b2a27" stroke-width="2"/>
-<text x="540" y="638" class="s" text-anchor="middle">R5 1 кОм</text>
-<circle cx="620" cy="650" r="4.5" fill="#2b2a27"/>
-<path class="w" d="M620 650 V663 M620 669 V678"/>
-<path class="w" d="M607 663 H633 M607 669 H633" style="stroke-width:3"/>
-<path class="w" d="M608 678 H632 M613 683 H627 M617 688 H623"/>
-<text x="640" y="674" class="s">C11 10 нФ</text>
+<path class="w" d="M450 650 H760"/>
 <rect class="box" x="760" y="620" width="140" height="60" rx="5"/>
 <text x="830" y="646" class="t b" text-anchor="middle">U5 · A</text>
 <text x="830" y="664" class="s" text-anchor="middle">DRV5055</text>
@@ -162,14 +127,7 @@
 <circle cx="1000" cy="635" r="4.5" fill="#c2410c"/>
 <circle cx="1180" cy="665" r="4.5" fill="#1d4e89"/>
 <text x="442" y="745" class="m" text-anchor="end">PA5</text>
-<path class="w" d="M450 740 H510 M570 740 H760"/>
-<rect x="510" y="733" width="60" height="14" fill="#fff" stroke="#2b2a27" stroke-width="2"/>
-<text x="540" y="728" class="s" text-anchor="middle">R6 1 кОм</text>
-<circle cx="620" cy="740" r="4.5" fill="#2b2a27"/>
-<path class="w" d="M620 740 V753 M620 759 V768"/>
-<path class="w" d="M607 753 H633 M607 759 H633" style="stroke-width:3"/>
-<path class="w" d="M608 768 H632 M613 773 H627 M617 778 H623"/>
-<text x="640" y="764" class="s">C12 10 нФ</text>
+<path class="w" d="M450 740 H760"/>
 <rect class="box" x="760" y="710" width="140" height="60" rx="5"/>
 <text x="830" y="736" class="t b" text-anchor="middle">U6 · B</text>
 <text x="830" y="754" class="s" text-anchor="middle">DRV5055</text>
@@ -184,14 +142,7 @@
 <circle cx="1000" cy="725" r="4.5" fill="#c2410c"/>
 <circle cx="1180" cy="755" r="4.5" fill="#1d4e89"/>
 <text x="442" y="825" class="m" text-anchor="end">PA6</text>
-<path class="w" d="M450 820 H510 M570 820 H760"/>
-<rect x="510" y="813" width="60" height="14" fill="#fff" stroke="#2b2a27" stroke-width="2"/>
-<text x="540" y="808" class="s" text-anchor="middle">R7 1 кОм</text>
-<circle cx="620" cy="820" r="4.5" fill="#2b2a27"/>
-<path class="w" d="M620 820 V833 M620 839 V848"/>
-<path class="w" d="M607 833 H633 M607 839 H633" style="stroke-width:3"/>
-<path class="w" d="M608 848 H632 M613 853 H627 M617 858 H623"/>
-<text x="640" y="844" class="s">C13 10 нФ</text>
+<path class="w" d="M450 820 H760"/>
 <rect class="box" x="760" y="790" width="140" height="60" rx="5"/>
 <text x="830" y="816" class="t b" text-anchor="middle">U7 · A</text>
 <text x="830" y="834" class="s" text-anchor="middle">DRV5055</text>
@@ -206,14 +157,7 @@
 <circle cx="1000" cy="805" r="4.5" fill="#c2410c"/>
 <circle cx="1180" cy="835" r="4.5" fill="#1d4e89"/>
 <text x="442" y="915" class="m" text-anchor="end">PA7</text>
-<path class="w" d="M450 910 H510 M570 910 H760"/>
-<rect x="510" y="903" width="60" height="14" fill="#fff" stroke="#2b2a27" stroke-width="2"/>
-<text x="540" y="898" class="s" text-anchor="middle">R8 1 кОм</text>
-<circle cx="620" cy="910" r="4.5" fill="#2b2a27"/>
-<path class="w" d="M620 910 V923 M620 929 V938"/>
-<path class="w" d="M607 923 H633 M607 929 H633" style="stroke-width:3"/>
-<path class="w" d="M608 938 H632 M613 943 H627 M617 948 H623"/>
-<text x="640" y="934" class="s">C14 10 нФ</text>
+<path class="w" d="M450 910 H760"/>
 <rect class="box" x="760" y="880" width="140" height="60" rx="5"/>
 <text x="830" y="906" class="t b" text-anchor="middle">U8 · B</text>
 <text x="830" y="924" class="s" text-anchor="middle">DRV5055</text>
@@ -265,23 +209,22 @@
 <text x="1350" y="404" class="s">где они стоят физически:</text>
 <text x="1350" y="426" class="s">C1, C2 — у пина 3.3 Blue Pill</text>
 <text x="1350" y="448" class="s">C3–C6 — у ножек своей пары</text>
-<text x="1350" y="470" class="s">R1–R8, C7–C14 — у пинов PA0–PA7</text>
-<text x="1350" y="492" class="s">(RC-фильтр, опционально)</text>
-<path class="w" d="M1346 502 H1370 M1351 507 H1365 M1355 512 H1361"/>
-<text x="1378" y="514" class="s">— земля (GND)</text>
-<text x="1350" y="548" class="t b">Питание</text>
-<text x="1350" y="570" class="s">STM32 ~30–50 мА</text>
-<text x="1350" y="592" class="s">8 × DRV5055 48–80 мА</text>
-<text x="1350" y="614" class="s">LED ~2–5 мА</text>
-<text x="1350" y="636" class="s">Кольцо WS2812 (5 В) до ~230 мА</text>
-<text x="1350" y="658" class="t b">Итого до ~370 мА — USB хватает</text>
-<text x="1350" y="680" class="s">LDO Blue Pill 150–300 мА, запас есть</text>
-<text x="1350" y="714" class="t b">Важно</text>
-<text x="1350" y="736" class="s">Датчики — только от 3.3 В, не от 5 В</text>
-<text x="1350" y="758" class="s">(иначе выход > 3.3 В на входе АЦП)</text>
-<text x="1350" y="780" class="s">Если ПК не видит USB: 1.8 кОм</text>
-<text x="1350" y="802" class="s">между PA12 и 3.3 В (фикс R10)</text>
-<text x="1350" y="824" class="s">Земля датчиков и кольца WS2812</text>
-<text x="1350" y="846" class="s">сходятся только на Blue Pill:</text>
-<text x="1350" y="868" class="s">кольцо — своей парой 5V/GND</text>
+<text x="1350" y="470" class="s">OUT датчиков — проводом прямо на PA0–PA7</text>
+<path class="w" d="M1346 480 H1370 M1351 485 H1365 M1355 490 H1361"/>
+<text x="1378" y="492" class="s">— земля (GND)</text>
+<text x="1350" y="526" class="t b">Питание</text>
+<text x="1350" y="548" class="s">STM32 ~30–50 мА</text>
+<text x="1350" y="570" class="s">8 × DRV5055 48–80 мА</text>
+<text x="1350" y="592" class="s">LED ~2–5 мА</text>
+<text x="1350" y="614" class="s">Кольцо WS2812 (5 В) до ~230 мА</text>
+<text x="1350" y="636" class="t b">Итого до ~370 мА — USB хватает</text>
+<text x="1350" y="658" class="s">LDO Blue Pill 150–300 мА, запас есть</text>
+<text x="1350" y="692" class="t b">Важно</text>
+<text x="1350" y="714" class="s">Датчики — только от 3.3 В, не от 5 В</text>
+<text x="1350" y="736" class="s">(иначе выход > 3.3 В на входе АЦП)</text>
+<text x="1350" y="758" class="s">Если ПК не видит USB: 1.8 кОм</text>
+<text x="1350" y="780" class="s">между PA12 и 3.3 В (фикс R10)</text>
+<text x="1350" y="802" class="s">Земля датчиков и кольца WS2812</text>
+<text x="1350" y="824" class="s">сходятся только на Blue Pill:</text>
+<text x="1350" y="846" class="s">кольцо — своей парой 5V/GND</text>
 </svg>

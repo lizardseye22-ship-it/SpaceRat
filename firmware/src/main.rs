@@ -22,13 +22,13 @@ use embassy_executor::Spawner;
 use embassy_futures::join::{join, join5};
 use embassy_stm32::adc::{Adc, AdcChannel, AnyAdcChannel, SampleTime};
 use embassy_stm32::flash::Flash;
-use embassy_stm32::gpio::{AfioRemap, Input, Level, Output, OutputType, Pull, Speed};
+use embassy_stm32::gpio::{AfioRemap, Input, Level, Output, OutputType, Pull, Speed, SwjCfg};
 use embassy_stm32::pac::timer::vals::{Ckd, FilterValue};
 use embassy_stm32::peripherals::ADC1;
 use embassy_stm32::time::khz;
 use embassy_stm32::timer::Channel;
 use embassy_stm32::timer::low_level::CountingMode;
-use embassy_stm32::timer::qei::{Qei, QeiMode};
+use embassy_stm32::timer::qei::{Ch1, Ch2, Qei, QeiMode};
 use embassy_stm32::timer::simple_pwm::{PwmPin, SimplePwm};
 use embassy_stm32::time::Hertz;
 use embassy_stm32::usb::Driver;
@@ -54,6 +54,8 @@ bind_interrupts!(struct Irqs {
 async fn main(_spawner: Spawner) {
     // 8 МГц кварц -> PLL ×9 = 72 МГц, USB = 72 / 1.5 = 48 МГц.
     let mut config = Config::default();
+    // JTAG выключен (SWD для прошивки остаётся): PA15, PB3, PB4 — энкодер.
+    config.swj = SwjCfg::SwdOnly;
     {
         use embassy_stm32::rcc::*;
         config.rcc.hse = Some(Hse { freq: Hertz(8_000_000), mode: HseMode::Oscillator });
@@ -229,25 +231,25 @@ async fn main(_spawner: Spawner) {
     // ------------------------------------------------ Кнопки, энкодер ---
     let input_fut = async {
         let buttons = [
+            Input::new(p.PB5, Pull::Up),
+            Input::new(p.PB6, Pull::Up),
+            Input::new(p.PB7, Pull::Up),
             Input::new(p.PB8, Pull::Up),
-            Input::new(p.PB12, Pull::Up),
-            Input::new(p.PB13, Pull::Up),
-            Input::new(p.PB14, Pull::Up),
-            Input::new(p.PB15, Pull::Up),
+            Input::new(p.PB9, Pull::Up),
         ];
-        let enc_button = Input::new(p.PB5, Pull::Up);
+        let enc_button = Input::new(p.PB4, Pull::Up);
 
-        // Энкодер: TIM4 в режиме энкодера, PB6 = CH1 (A), PB7 = CH2 (B), подтяжки внутренние.
-        // Системное время Embassy перенесено на TIM3 (Cargo.toml: time-driver-tim3).
+        // Энкодер: TIM2 в режиме энкодера, ремап 1: PA15 = CH1 (A), PB3 = CH2 (B),
+        // подтяжки внутренние. Системное время Embassy — на TIM3 (Cargo.toml: time-driver-tim3).
         let mut qei_config = embassy_stm32::timer::qei::Config::default();
         qei_config.ch1_pull = Pull::Up;
         qei_config.ch2_pull = Pull::Up;
         qei_config.mode = QeiMode::Mode3;
-        let qei = Qei::new(p.TIM4, p.PB6, p.PB7, qei_config);
+        let qei = Qei::new::<Ch1, Ch2, AfioRemap<1>>(p.TIM2, p.PA15, p.PB3, qei_config);
         // Максимальный цифровой фильтр входов: fDTS = 72 МГц / 4, выборка fDTS / 32, 8 подряд.
         // Отсекает короткие иголки; дребезг контактов гасится самим счётом квадратуры.
         {
-            let tim = embassy_stm32::pac::TIM4;
+            let tim = embassy_stm32::pac::TIM2;
             tim.cr1().modify(|w| w.set_cen(false));
             tim.cr1().modify(|w| w.set_ckd(Ckd::DIV4));
             tim.ccmr_input(0).modify(|w| {

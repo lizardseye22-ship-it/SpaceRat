@@ -27,14 +27,15 @@ a(f'<rect x="60" y="120" width="{XBP-60}" height="900" rx="8" fill="#e9eef5" str
 a('<text x="170" y="430" class="t b" text-anchor="middle" style="font-size:18px">Blue Pill</text>')
 a('<text x="170" y="452" class="s" text-anchor="middle">STM32F103C8T6</text>')
 a('<text x="170" y="472" class="s" text-anchor="middle">вход + внутр. pull-up</text>')
-a('<text x="170" y="492" class="s" text-anchor="middle">TIM4 — режим энкодера</text>')
+a('<text x="170" y="492" class="s" text-anchor="middle">TIM2 — режим энкодера</text>')
+a('<text x="170" y="512" class="s" text-anchor="middle">JTAG выкл., SWD вкл.</text>')
 # GND bus
 a(f'<path class="g" d="M{XBP} 740 H{XG} V200"/>')
 a(f'<text x="{XBP-8}" y="745" class="m" text-anchor="end">G</text>')
 a('<text x="640" y="768" class="t b" style="fill:#1d4e89">GND</text>')
 # encoder
 ey={'S':200,'A':260,'B':340}
-pins={'S':'PB5','A':'PB6','B':'PB7'}
+pins={'S':'PB4','A':'PA15','B':'PB3'}
 EX0,EX1=760,880
 a(f'<rect class="box" x="{EX0}" y="180" width="{EX1-EX0}" height="190" rx="8"/>')
 a(f'<circle cx="{(EX0+EX1)//2}" cy="285" r="26" fill="none" stroke="#2b2a27" stroke-width="2"/>')
@@ -56,10 +57,10 @@ for n,(k,y) in enumerate((('A',260),('B',340))):
     a(f'<path class="w" d="M{cx} {y} V{y+13} M{cx} {y+19} V{y+28}"/>')
     a(f'<path class="w" d="M{cx-12} {y+13} H{cx+12} M{cx-12} {y+19} H{cx+12}" style="stroke-width:3"/>')
     gnd(cx,y+28)
-    a(f'<text x="{cx-18}" y="{y+22}" class="s" text-anchor="end">C{n+1} 10 нФ</text>')
-a('<text x="616" y="392" class="s">C1, C2 — на выводах A/B энкодера, опционально</text>')
+    a(f'<text x="{cx-18}" y="{y+22}" class="s" text-anchor="end">C{n+15} 10 нФ</text>')
+a('<text x="616" y="392" class="s">C15, C16 — на выводах A/B энкодера, опционально</text>')
 # buttons
-btns=[('PB8',490),('PB12',540),('PB13',590),('PB14',640),('PB15',690)]
+btns=[('PB5',490),('PB6',540),('PB7',590),('PB8',640),('PB9',690)]
 for i,(p,y) in enumerate(btns):
     x0,x1=800,860
     a(f'<text x="{XBP-8}" y="{y+5}" class="m" text-anchor="end">{p}</text>')
@@ -82,12 +83,13 @@ a(f'<text x="{XBP-8}" y="{yg+5}" class="m" text-anchor="end">G</text>')
 a(f'<path class="w" d="M{XBP} {ya} H860"/>')
 a(f'<path d="M{XBP} {yv} H860" style="{V5}"/>')
 a(f'<path class="g" d="M{XBP} {yg} H860"/>')
-# подтяжка 1к между линией данных и 5 В — у Blue Pill
-dot(420,ya); dot(420,yv,'#c2410c')
-a(f'<path class="w" d="M420 {ya} V{ya+14} M420 {yv-14} V{yv}"/>')
-a(f'<rect x="413" y="{ya+14}" width="14" height="{yv-ya-28}" fill="#fff" stroke="#2b2a27" stroke-width="2"/>')
-a(f'<text x="436" y="{(ya+yv)//2-4}" class="s">R 1 кОм</text>')
-a(f'<text x="436" y="{(ya+yv)//2+12}" class="s">у Blue Pill</text>')
+# подтяжка R9 1к между линией данных и 5 В — у кольца
+XR = 620
+dot(XR,ya); dot(XR,yv,'#c2410c')
+a(f'<path class="w" d="M{XR} {ya} V{ya+14} M{XR} {yv-14} V{yv}"/>')
+a(f'<rect x="{XR-7}" y="{ya+14}" width="14" height="{yv-ya-28}" fill="#fff" stroke="#2b2a27" stroke-width="2"/>')
+a(f'<text x="{XR+16}" y="{(ya+yv)//2-6}" class="s">R9 1 кОм</text>')
+a(f'<text x="{XR+16}" y="{(ya+yv)//2+8}" class="s">у кольца</text>')
 # свитая пара 5V/GND: отметки скрутки
 for x in range(470, 581, 22):
     a(f'<path d="M{x} {yv+6} L{x+14} {yg-6} M{x} {yg-6} L{x+14} {yv+6}" style="stroke:#8a8378;stroke-width:1.2;fill:none"/>')
@@ -106,15 +108,15 @@ for cx,lab in ((680,'470 мкФ'),(790,'100 нФ')):
     a(f'<path class="w" d="M{cx} {yv} V{mid-3} M{cx} {mid+3} V{yg}"/>')
     a(f'<path class="w" d="M{cx-12} {mid-3} H{cx+12} M{cx-12} {mid+3} H{cx+12}" style="stroke-width:3"/>')
     a(f'<text x="{cx+16}" y="{mid+5}" class="s">{lab}</text>')
-a(f'<text x="670" y="{yv-10}" class="s">C — у кольца</text>')
+a(f'<text x="470" y="{yg+56}" class="s">R9 и конденсаторы — у кольца</text>')
 
 # notes
 lx=1090
 L=[('b','Кнопки SpaceMouse Pro'),('s','SW1–SW4 → 1–4, SW5 → Fit'),('s','ENC вправо / влево → T / R'),('s','ENC нажатие → F'),('s','(щелчок = «нажатие» 30 мс)'),('s','SW1 + SW5 при включении —'),('s','режим калибровки'),
    ('sp',''),('b','Обвязка'),('s','Кнопки: вывод → пин, вывод → GND'),('s','Pull-up — внутренние, в прошивке'),('s','Дребезг — программно, 5–10 мс'),('s','Внешних резисторов нет'),
    ('sp',''),('b','EC11, вид снизу'),('s','3 вывода: A · C · B'),('s','(C — средний, на GND)'),('s','2 вывода: S1 · S2 — кнопка'),
-   ('sp',''),('b','Не использовать'),('s','PB2 (BOOT1), PB3/PB4/PA15 (JTAG)'),('s','PA11/PA12 (USB), PA13/PA14 (SWD)'),('s','PA0–PA7 заняты датчиками'),
-   ('sp',''),('b','Кольцо WS2812'),('s','PA8 — TIM1_CH1, открытый сток,'),('s','5 В-толерантный; R 1 кОм к 5 В'),('s','Питание 5 В с USB (пин 5V)'),('s','5V + GND — своей свитой парой,'),('s','не через землю датчиков/кнопок'),('s','C 470 мкФ + 100 нФ — у кольца'),('s','Яркость ограничена в прошивке'),
+   ('sp',''),('b','Не использовать'),('s','PB2 (BOOT1); JTAG выключен'),('s','PA11/PA12 (USB), PA13/PA14 (SWD)'),('s','PA0–PA7 заняты датчиками'),
+   ('sp',''),('b','Кольцо WS2812'),('s','PA8 — TIM1_CH1, открытый сток,'),('s','5 В-толерантный; R9 1 кОм к 5 В'),('s','Питание 5 В с USB (пин 5V)'),('s','5V + GND — своей свитой парой,'),('s','не через землю датчиков/кнопок'),('s','C 470 мкФ + 100 нФ — у кольца'),('s','Яркость ограничена в прошивке'),
    ('sp',''),('b','Обозначения'),('dot','— соединение'),('gs','— земля (GND)'),('g','шина GND'),]
 y=140
 for kind,txt in L:

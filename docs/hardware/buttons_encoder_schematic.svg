@@ -18,7 +18,8 @@
 <text x="170" y="430" class="t b" text-anchor="middle" style="font-size:18px">Blue Pill</text>
 <text x="170" y="452" class="s" text-anchor="middle">STM32F103C8T6</text>
 <text x="170" y="472" class="s" text-anchor="middle">вход + внутр. pull-up</text>
-<text x="170" y="492" class="s" text-anchor="middle">TIM4 — режим энкодера</text>
+<text x="170" y="492" class="s" text-anchor="middle">TIM2 — режим энкодера</text>
+<text x="170" y="512" class="s" text-anchor="middle">JTAG выкл., SWD вкл.</text>
 <path class="g" d="M320 740 H1000 V200"/>
 <text x="312" y="745" class="m" text-anchor="end">G</text>
 <text x="640" y="768" class="t b" style="fill:#1d4e89">GND</text>
@@ -27,13 +28,13 @@
 <path class="w" d="M820 285 L834 270"/>
 <text x="820" y="232" class="t b" text-anchor="middle">EC11</text>
 <text x="820" y="355" class="s" text-anchor="middle">ENC1</text>
-<text x="312" y="205" class="m" text-anchor="end">PB5</text>
+<text x="312" y="205" class="m" text-anchor="end">PB4</text>
 <path class="w" d="M320 200 H760"/>
 <text x="766" y="204" class="s" style="font-size:11px">S1</text>
-<text x="312" y="265" class="m" text-anchor="end">PB6</text>
+<text x="312" y="265" class="m" text-anchor="end">PA15</text>
 <path class="w" d="M320 260 H760"/>
 <text x="766" y="264" class="s" style="font-size:11px">A</text>
-<text x="312" y="345" class="m" text-anchor="end">PB7</text>
+<text x="312" y="345" class="m" text-anchor="end">PB3</text>
 <path class="w" d="M320 340 H760"/>
 <text x="766" y="344" class="s" style="font-size:11px">B</text>
 <text x="874" y="204" class="s" text-anchor="end" style="font-size:11px">S2</text>
@@ -46,14 +47,14 @@
 <path class="w" d="M720 260 V273 M720 279 V288"/>
 <path class="w" d="M708 273 H732 M708 279 H732" style="stroke-width:3"/>
 <path class="w" d="M708 288 H732 M713 293 H727 M717 298 H723"/>
-<text x="702" y="282" class="s" text-anchor="end">C1 10 нФ</text>
+<text x="702" y="282" class="s" text-anchor="end">C15 10 нФ</text>
 <circle cx="720" cy="340" r="4.5" fill="#2b2a27"/>
 <path class="w" d="M720 340 V353 M720 359 V368"/>
 <path class="w" d="M708 353 H732 M708 359 H732" style="stroke-width:3"/>
 <path class="w" d="M708 368 H732 M713 373 H727 M717 378 H723"/>
-<text x="702" y="362" class="s" text-anchor="end">C2 10 нФ</text>
-<text x="616" y="392" class="s">C1, C2 — на выводах A/B энкодера, опционально</text>
-<text x="312" y="495" class="m" text-anchor="end">PB8</text>
+<text x="702" y="362" class="s" text-anchor="end">C16 10 нФ</text>
+<text x="616" y="392" class="s">C15, C16 — на выводах A/B энкодера, опционально</text>
+<text x="312" y="495" class="m" text-anchor="end">PB5</text>
 <path class="w" d="M320 490 H795"/>
 <circle cx="800" cy="490" r="4.5" fill="#fff" stroke="#2b2a27" stroke-width="2"/>
 <circle cx="860" cy="490" r="4.5" fill="#fff" stroke="#2b2a27" stroke-width="2"/>
@@ -63,7 +64,7 @@
 <path class="g" d="M865 490 H1000"/>
 <circle cx="1000" cy="490" r="4.5" fill="#1d4e89"/>
 <text x="880" y="482" class="s">кнопка 1</text>
-<text x="312" y="545" class="m" text-anchor="end">PB12</text>
+<text x="312" y="545" class="m" text-anchor="end">PB6</text>
 <path class="w" d="M320 540 H795"/>
 <circle cx="800" cy="540" r="4.5" fill="#fff" stroke="#2b2a27" stroke-width="2"/>
 <circle cx="860" cy="540" r="4.5" fill="#fff" stroke="#2b2a27" stroke-width="2"/>
@@ -73,7 +74,7 @@
 <path class="g" d="M865 540 H1000"/>
 <circle cx="1000" cy="540" r="4.5" fill="#1d4e89"/>
 <text x="880" y="532" class="s">кнопка 2</text>
-<text x="312" y="595" class="m" text-anchor="end">PB13</text>
+<text x="312" y="595" class="m" text-anchor="end">PB7</text>
 <path class="w" d="M320 590 H795"/>
 <circle cx="800" cy="590" r="4.5" fill="#fff" stroke="#2b2a27" stroke-width="2"/>
 <circle cx="860" cy="590" r="4.5" fill="#fff" stroke="#2b2a27" stroke-width="2"/>
@@ -83,7 +84,7 @@
 <path class="g" d="M865 590 H1000"/>
 <circle cx="1000" cy="590" r="4.5" fill="#1d4e89"/>
 <text x="880" y="582" class="s">кнопка 3</text>
-<text x="312" y="645" class="m" text-anchor="end">PB14</text>
+<text x="312" y="645" class="m" text-anchor="end">PB8</text>
 <path class="w" d="M320 640 H795"/>
 <circle cx="800" cy="640" r="4.5" fill="#fff" stroke="#2b2a27" stroke-width="2"/>
 <circle cx="860" cy="640" r="4.5" fill="#fff" stroke="#2b2a27" stroke-width="2"/>
@@ -93,7 +94,7 @@
 <path class="g" d="M865 640 H1000"/>
 <circle cx="1000" cy="640" r="4.5" fill="#1d4e89"/>
 <text x="880" y="632" class="s">кнопка 4</text>
-<text x="312" y="695" class="m" text-anchor="end">PB15</text>
+<text x="312" y="695" class="m" text-anchor="end">PB9</text>
 <path class="w" d="M320 690 H795"/>
 <circle cx="800" cy="690" r="4.5" fill="#fff" stroke="#2b2a27" stroke-width="2"/>
 <circle cx="860" cy="690" r="4.5" fill="#fff" stroke="#2b2a27" stroke-width="2"/>
@@ -111,12 +112,12 @@
 <path class="w" d="M320 840 H860"/>
 <path d="M320 900 H860" style="stroke:#c2410c;stroke-width:2.5;fill:none"/>
 <path class="g" d="M320 980 H860"/>
-<circle cx="420" cy="840" r="4.5" fill="#2b2a27"/>
-<circle cx="420" cy="900" r="4.5" fill="#c2410c"/>
-<path class="w" d="M420 840 V854 M420 886 V900"/>
-<rect x="413" y="854" width="14" height="32" fill="#fff" stroke="#2b2a27" stroke-width="2"/>
-<text x="436" y="866" class="s">R 1 кОм</text>
-<text x="436" y="882" class="s">у Blue Pill</text>
+<circle cx="620" cy="840" r="4.5" fill="#2b2a27"/>
+<circle cx="620" cy="900" r="4.5" fill="#c2410c"/>
+<path class="w" d="M620 840 V854 M620 886 V900"/>
+<rect x="613" y="854" width="14" height="32" fill="#fff" stroke="#2b2a27" stroke-width="2"/>
+<text x="636" y="864" class="s">R9 1 кОм</text>
+<text x="636" y="878" class="s">у кольца</text>
 <path d="M470 906 L484 974 M470 974 L484 906" style="stroke:#8a8378;stroke-width:1.2;fill:none"/>
 <path d="M492 906 L506 974 M492 974 L506 906" style="stroke:#8a8378;stroke-width:1.2;fill:none"/>
 <path d="M514 906 L528 974 M514 974 L528 906" style="stroke:#8a8378;stroke-width:1.2;fill:none"/>
@@ -141,7 +142,7 @@
 <path class="w" d="M790 900 V937 M790 943 V980"/>
 <path class="w" d="M778 937 H802 M778 943 H802" style="stroke-width:3"/>
 <text x="806" y="945" class="s">100 нФ</text>
-<text x="670" y="890" class="s">C — у кольца</text>
+<text x="470" y="1036" class="s">R9 и конденсаторы — у кольца</text>
 <text x="1090" y="140" class="t b">Кнопки SpaceMouse Pro</text>
 <text x="1090" y="162" class="s">SW1–SW4 → 1–4, SW5 → Fit</text>
 <text x="1090" y="184" class="s">ENC вправо / влево → T / R</text>
@@ -159,12 +160,12 @@
 <text x="1090" y="472" class="s">(C — средний, на GND)</text>
 <text x="1090" y="494" class="s">2 вывода: S1 · S2 — кнопка</text>
 <text x="1090" y="528" class="t b">Не использовать</text>
-<text x="1090" y="550" class="s">PB2 (BOOT1), PB3/PB4/PA15 (JTAG)</text>
+<text x="1090" y="550" class="s">PB2 (BOOT1); JTAG выключен</text>
 <text x="1090" y="572" class="s">PA11/PA12 (USB), PA13/PA14 (SWD)</text>
 <text x="1090" y="594" class="s">PA0–PA7 заняты датчиками</text>
 <text x="1090" y="628" class="t b">Кольцо WS2812</text>
 <text x="1090" y="650" class="s">PA8 — TIM1_CH1, открытый сток,</text>
-<text x="1090" y="672" class="s">5 В-толерантный; R 1 кОм к 5 В</text>
+<text x="1090" y="672" class="s">5 В-толерантный; R9 1 кОм к 5 В</text>
 <text x="1090" y="694" class="s">Питание 5 В с USB (пин 5V)</text>
 <text x="1090" y="716" class="s">5V + GND — своей свитой парой,</text>
 <text x="1090" y="738" class="s">не через землю датчиков/кнопок</text>

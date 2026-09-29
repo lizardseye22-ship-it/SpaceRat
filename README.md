@@ -25,7 +25,7 @@ SpaceMouse. Работает с родным драйвером **3DxWare под
 - 8 кнопок SpaceMouse Pro: 5 свичей, щелчки энкодера влево/вправо и его нажатие;
 - кольцо откликается на движение: нажали — ярче, подняли — тусклее, куда
   сдвигаем, наклоняем или поворачиваем — та сторона ярче;
-- энкодер на аппаратном декодере TIM4, кольцо — через TIM1 + DMA.
+- энкодер на аппаратном декодере TIM2, кольцо — через TIM1 + DMA.
 
 ## Документация
 
@@ -34,7 +34,7 @@ SpaceMouse. Работает с родным драйвером **3DxWare под
 | Схема датчиков и питания | [`docs/hardware/spacemouse_schematic.svg`](docs/hardware/spacemouse_schematic.svg) |
 | Схема кнопок, энкодера и кольца | [`docs/hardware/buttons_encoder_schematic.svg`](docs/hardware/buttons_encoder_schematic.svg) |
 | Размеры механики (магниты 10×2) | [`docs/hardware/mechanics_layout.svg`](docs/hardware/mechanics_layout.svg) |
-| Печатная плата под ЛУТ (односторонняя) | [`pcb/README.md`](pcb/README.md) |
+| Печатная плата 52×19 мм (односторонняя, фоторезист) | [`pcb/README.md`](pcb/README.md) |
 | Распиновка, компоненты, механика, формулы осей | [`docs/hardware/README.md`](docs/hardware/README.md) |
 | Прошивка: сборка, прошивка, калибровка, настройки | [`firmware/README.md`](firmware/README.md) |
 | USB HID SpaceMouse: дескрипторы, отчёты, частоты | [`docs/firmware/usb-hid-protocol.md`](docs/firmware/usb-hid-protocol.md) |
@@ -42,7 +42,7 @@ SpaceMouse. Работает с родным драйвером **3DxWare под
 ## Быстрый старт
 
 1. **Собрать железо** по схемам и чертежу размеров (`docs/hardware`); плату можно
-   изготовить ЛУТом по [`pcb/`](pcb/README.md).
+   изготовить фоторезистом по [`pcb/`](pcb/README.md).
    Важно: датчики питаются только от 3.3 В; кольцо — отдельной парой 5V/GND.
 2. **Указать своё кольцо** в [`firmware/src/config.rs`](firmware/src/config.rs):
    `LED_COUNT`, при необходимости `LED_FIRST_ANGLE_DEG` и `LED_CLOCKWISE`.
@@ -64,7 +64,7 @@ firmware/               прошивка (Embassy, STM32F103C8)
 docs/hardware/          схемы, чертёж, распиновка, компоненты
   tools/                скрипты, генерирующие SVG-схемы
 docs/firmware/          USB HID-протокол SpaceMouse
-pcb/                    односторонняя плата под ЛУТ: печать 1:1, сборка, генератор
+pcb/                    односторонняя плата под фоторезист: шаблоны 1:1, сборка, генератор
 tests/firmware_logic/   тесты логики прошивки на ПК (cargo test)
 ```
 
