@@ -1,0 +1,162 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1720" height="1100" viewBox="0 0 1720 1100" font-family="DejaVu Sans, Arial, sans-serif">
+<style>
+.t{font-size:14px;fill:#2b2a27}.s{font-size:12px;fill:#55524c}.b{font-weight:bold}
+.dim{stroke:#b4412c;stroke-width:1.3;fill:none}.dimt{font-size:13px;fill:#b4412c;font-weight:bold}
+.thin{stroke:#8a8378;stroke-width:1;fill:none;stroke-dasharray:5 4}
+.body{fill:#fff;stroke:#2b2a27;stroke-width:1.8}
+.mag{fill:#cfd9e6;stroke:#1d4e89;stroke-width:1.8}
+.magtop{fill:#cfd9e6;fill-opacity:.55;stroke:#1d4e89;stroke-width:1.6;stroke-dasharray:6 4}
+.leg{stroke:#2b2a27;stroke-width:1.6}
+.base{fill:#e8e3d8;stroke:#8a8378;stroke-width:1}
+</style>
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+<path d="M0 0 L10 5 L0 10 Z" fill="#b4412c"/></marker>
+<marker id="ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+<path d="M0 0 L10 5 L0 10 Z" fill="#2b2a27"/></marker></defs>
+<rect width="1720" height="1100" fill="#faf8f3"/>
+<text x="30" y="46" class="t b" style="font-size:26px">SpaceRat — размеры под магниты 10×2</text>
+<text x="30" y="74" class="t" style="fill:#55524c">DRV5055A3 (TO-92, лёжа маркировкой вверх) · 4 пары по кругу · все размеры в мм · стартовые значения, зазор регулируемый</text>
+<text x="60" y="130" class="t b" style="font-size:18px">Вид сверху (подвижная часть снята, магниты — пунктиром)</text>
+<circle cx="440" cy="590" r="250.0" class="thin"/>
+<line x1="430" y1="590" x2="450" y2="590" class="leg"/><line x1="440" y1="580" x2="440" y2="600" class="leg"/>
+<circle cx="690.0" cy="590.0" r="50.0" fill="#cfd9e6" fill-opacity=".45"/>
+<line class="leg" x1="715.0" y1="647.7" x2="775.0" y2="647.7"/>
+<line class="leg" x1="715.0" y1="635.0" x2="775.0" y2="635.0"/>
+<line class="leg" x1="715.0" y1="622.3" x2="775.0" y2="622.3"/>
+<polygon class="body" points="665.0,657.5 665.0,612.5 715.0,612.5 715.0,657.5"/>
+<circle cx="690.0" cy="635.0" r="2.5" fill="#b4412c"/>
+<text x="690.0" y="678.5" class="t b" text-anchor="middle">A</text>
+<line class="leg" x1="715.0" y1="557.7" x2="775.0" y2="557.7"/>
+<line class="leg" x1="715.0" y1="545.0" x2="775.0" y2="545.0"/>
+<line class="leg" x1="715.0" y1="532.3" x2="775.0" y2="532.3"/>
+<polygon class="body" points="665.0,567.5 665.0,522.5 715.0,522.5 715.0,567.5"/>
+<circle cx="690.0" cy="545.0" r="2.5" fill="#b4412c"/>
+<text x="690.0" y="511.5" class="t b" text-anchor="middle">B</text>
+<circle cx="690.0" cy="590.0" r="50.0" fill="none" stroke="#1d4e89" stroke-width="1.6" stroke-dasharray="6 4"/>
+<line x1="615.0" y1="612.0" x2="615.0" y2="568.0" stroke="#2b2a27" stroke-width="1.4" marker-end="url(#ag)"/>
+<text x="740.0" y="476.0" class="t b" text-anchor="middle">Пара 0 · 0°</text>
+<text x="740.0" y="494.0" class="s" text-anchor="middle">U1/U2 · PA0/PA1</text>
+<circle cx="440.0" cy="340.0" r="50.0" fill="#cfd9e6" fill-opacity=".45"/>
+<line class="leg" x1="497.7" y1="315.0" x2="497.7" y2="255.0"/>
+<line class="leg" x1="485.0" y1="315.0" x2="485.0" y2="255.0"/>
+<line class="leg" x1="472.3" y1="315.0" x2="472.3" y2="255.0"/>
+<polygon class="body" points="507.5,365.0 462.5,365.0 462.5,315.0 507.5,315.0"/>
+<circle cx="485.0" cy="340.0" r="2.5" fill="#b4412c"/>
+<text x="523.5" y="345.0" class="t b" text-anchor="middle">A</text>
+<line class="leg" x1="407.7" y1="315.0" x2="407.7" y2="255.0"/>
+<line class="leg" x1="395.0" y1="315.0" x2="395.0" y2="255.0"/>
+<line class="leg" x1="382.3" y1="315.0" x2="382.3" y2="255.0"/>
+<polygon class="body" points="417.5,365.0 372.5,365.0 372.5,315.0 417.5,315.0"/>
+<circle cx="395.0" cy="340.0" r="2.5" fill="#b4412c"/>
+<text x="356.5" y="345.0" class="t b" text-anchor="middle">B</text>
+<circle cx="440.0" cy="340.0" r="50.0" fill="none" stroke="#1d4e89" stroke-width="1.6" stroke-dasharray="6 4"/>
+<line x1="462.0" y1="415.0" x2="418.0" y2="415.0" stroke="#2b2a27" stroke-width="1.4" marker-end="url(#ag)"/>
+<text x="440.0" y="198.0" class="t b" text-anchor="middle">Пара 1 · 90°</text>
+<text x="440.0" y="216.0" class="s" text-anchor="middle">U3/U4 · PA2/PA3</text>
+<circle cx="190.0" cy="590.0" r="50.0" fill="#cfd9e6" fill-opacity=".45"/>
+<line class="leg" x1="165.0" y1="532.3" x2="105.0" y2="532.3"/>
+<line class="leg" x1="165.0" y1="545.0" x2="105.0" y2="545.0"/>
+<line class="leg" x1="165.0" y1="557.7" x2="105.0" y2="557.7"/>
+<polygon class="body" points="215.0,522.5 215.0,567.5 165.0,567.5 165.0,522.5"/>
+<circle cx="190.0" cy="545.0" r="2.5" fill="#b4412c"/>
+<text x="190.0" y="511.5" class="t b" text-anchor="middle">A</text>
+<line class="leg" x1="165.0" y1="622.3" x2="105.0" y2="622.3"/>
+<line class="leg" x1="165.0" y1="635.0" x2="105.0" y2="635.0"/>
+<line class="leg" x1="165.0" y1="647.7" x2="105.0" y2="647.7"/>
+<polygon class="body" points="215.0,612.5 215.0,657.5 165.0,657.5 165.0,612.5"/>
+<circle cx="190.0" cy="635.0" r="2.5" fill="#b4412c"/>
+<text x="190.0" y="678.5" class="t b" text-anchor="middle">B</text>
+<circle cx="190.0" cy="590.0" r="50.0" fill="none" stroke="#1d4e89" stroke-width="1.6" stroke-dasharray="6 4"/>
+<line x1="265.0" y1="568.0" x2="265.0" y2="612.0" stroke="#2b2a27" stroke-width="1.4" marker-end="url(#ag)"/>
+<text x="140.0" y="476.0" class="t b" text-anchor="middle">Пара 2 · 180°</text>
+<text x="140.0" y="494.0" class="s" text-anchor="middle">U5/U6 · PA4/PA5</text>
+<circle cx="440.0" cy="840.0" r="50.0" fill="#cfd9e6" fill-opacity=".45"/>
+<line class="leg" x1="382.3" y1="865.0" x2="382.3" y2="925.0"/>
+<line class="leg" x1="395.0" y1="865.0" x2="395.0" y2="925.0"/>
+<line class="leg" x1="407.7" y1="865.0" x2="407.7" y2="925.0"/>
+<polygon class="body" points="372.5,815.0 417.5,815.0 417.5,865.0 372.5,865.0"/>
+<circle cx="395.0" cy="840.0" r="2.5" fill="#b4412c"/>
+<text x="356.5" y="845.0" class="t b" text-anchor="middle">A</text>
+<line class="leg" x1="472.3" y1="865.0" x2="472.3" y2="925.0"/>
+<line class="leg" x1="485.0" y1="865.0" x2="485.0" y2="925.0"/>
+<line class="leg" x1="497.7" y1="865.0" x2="497.7" y2="925.0"/>
+<polygon class="body" points="462.5,815.0 507.5,815.0 507.5,865.0 462.5,865.0"/>
+<circle cx="485.0" cy="840.0" r="2.5" fill="#b4412c"/>
+<text x="523.5" y="845.0" class="t b" text-anchor="middle">B</text>
+<circle cx="440.0" cy="840.0" r="50.0" fill="none" stroke="#1d4e89" stroke-width="1.6" stroke-dasharray="6 4"/>
+<line x1="418.0" y1="765.0" x2="462.0" y2="765.0" stroke="#2b2a27" stroke-width="1.4" marker-end="url(#ag)"/>
+<text x="440.0" y="974.0" class="t b" text-anchor="middle">Пара 3 · 270°</text>
+<text x="440.0" y="992.0" class="s" text-anchor="middle">U7/U8 · PA6/PA7</text>
+<line class="dim" x1="440.0" y1="604.0" x2="440.0" y2="788.0" marker-start="url(#ah)" marker-end="url(#ah)"/>
+<text x="440.0" y="688.0" class="dimt" text-anchor="middle"></text>
+<text x="450.0" y="694.0" class="dimt">R 25</text>
+<text x="450.0" y="710.0" class="s">(22–30)</text>
+<line class="thin" x1="485.0" y1="340.0" x2="485.0" y2="274.0"/>
+<line class="thin" x1="395.0" y1="340.0" x2="395.0" y2="274.0"/>
+<line class="dim" x1="395.0" y1="268.0" x2="485.0" y2="268.0" marker-start="url(#ah)" marker-end="url(#ah)"/>
+<text x="440.0" y="260.0" class="dimt" text-anchor="middle">9 (8–10)</text>
+<line class="dim" x1="640.0" y1="700.0" x2="740.0" y2="700.0" marker-start="url(#ah)" marker-end="url(#ah)"/>
+<text x="690.0" y="720.0" class="dimt" text-anchor="middle">Ø10</text>
+<line class="thin" x1="690.0" y1="590.0" x2="440.0" y2="340.0"/>
+<text x="560.0" y="400.0" class="dimt">35 между соседями</text>
+<text x="440" y="1015.0" class="s" text-anchor="middle">● — чувствительный элемент · стрелка A→B — все пары против часовой · ножки наружу по радиусу</text>
+<text x="440" y="1037.0" class="s" text-anchor="middle">Линия A–B каждой пары — по касательной к окружности · магнит над серединой пары</text>
+<text x="940" y="130" class="t b" style="font-size:18px">Вид сбоку (разрез вдоль пары, ручка в покое)</text>
+<rect class="base" x="938.0" y="470.0" width="484.0" height="35.2"/>
+<text x="944.0" y="494.0" class="s">плата / основание</text>
+<rect class="body" x="1031.5" y="390.8" width="99.0" height="79.2" rx="6"/>
+<circle cx="1081.0" cy="412.8" r="4" fill="#b4412c"/>
+<text x="1081.0" y="450.2" class="t b" text-anchor="middle">A</text>
+<rect class="body" x="1229.5" y="390.8" width="99.0" height="79.2" rx="6"/>
+<circle cx="1279.0" cy="412.8" r="4" fill="#b4412c"/>
+<text x="1279.0" y="450.2" class="t b" text-anchor="middle">B</text>
+<text x="1081.0" y="385.3" class="s" text-anchor="middle">маркировка вверх</text>
+<rect class="mag" x="1070.0" y="225.8" width="220.0" height="44.0"/>
+<text x="1180.0" y="252.8" class="t b" text-anchor="middle" style="fill:#1d4e89">магнит 10×2 · N вниз</text>
+<rect x="1004.0" y="192.8" width="352.0" height="33.0" fill="#efebe3" stroke="#8a8378"/>
+<text x="1012.0" y="184.8" class="s">подвижная часть (держатель магнита)</text>
+<line class="thin" x1="1328.5" y1="390.8" x2="1348.4" y2="390.8"/>
+<line class="thin" x1="1290.0" y1="269.8" x2="1348.4" y2="269.8"/>
+<line class="dim" x1="1338.4" y1="390.8" x2="1338.4" y2="269.8" marker-start="url(#ah)" marker-end="url(#ah)"/>
+<text x="1338.4" y="322.3" class="dimt" text-anchor="middle"></text>
+<text x="1350.4" y="328.3" class="dimt">зазор 5–6</text>
+<text x="1350.4" y="346.3" class="s">(для A3)</text>
+<line class="thin" x1="1279.0" y1="412.8" x2="1449.6" y2="412.8"/>
+<line class="dim" x1="1439.6" y1="412.8" x2="1439.6" y2="269.8" marker-start="url(#ah)" marker-end="url(#ah)"/>
+<text x="1439.6" y="333.3" class="dimt" text-anchor="middle"></text>
+<text x="1451.6" y="381.3" class="s">до элемента</text>
+<text x="1451.6" y="397.3" class="s">≈ зазор + 1</text>
+<line class="thin" x1="1081.0" y1="412.8" x2="1081.0" y2="533.2"/>
+<line class="thin" x1="1279.0" y1="412.8" x2="1279.0" y2="533.2"/>
+<line class="dim" x1="1081.0" y1="527.2" x2="1279.0" y2="527.2" marker-start="url(#ah)" marker-end="url(#ah)"/>
+<text x="1180.0" y="549.2" class="dimt" text-anchor="middle">шаг 9 (≈ Ø магнита)</text>
+<line class="dim" x1="1050.2" y1="269.8" x2="1050.2" y2="225.8" marker-start="url(#ah)" marker-end="url(#ah)"/>
+<text x="1040.2" y="252.8" class="dimt" text-anchor="end">2</text>
+<line class="dim" x1="999.6" y1="214.8" x2="999.6" y2="280.8" marker-start="url(#ah)" marker-end="url(#ah)"/>
+<text x="991.6" y="252.8" class="dimt" text-anchor="end">ход ±1.5</text>
+<text x="940" y="640" class="t b">Датчик</text>
+<text x="1090" y="640" class="t b">Зазор до корпуса</text>
+<text x="1260" y="640" class="t b">Поле в покое</text>
+<text x="1410" y="640" class="t b"></text>
+<text x="940" y="670" class="t">DRV5055A2</text>
+<text x="1090" y="670" class="t">7–9 мм</text>
+<text x="1260" y="670" class="t">~25–35 мТ</text>
+<text x="1410" y="670" class="t"></text>
+<rect x="932" y="680" width="620" height="28" fill="#f3e4dc"/>
+<text x="940" y="700" class="t b">DRV5055A3</text>
+<text x="1090" y="700" class="t">5–6 мм</text>
+<text x="1260" y="700" class="t">~40–55 мТ</text>
+<text x="1410" y="700" class="t">рекомендуется</text>
+<text x="940" y="730" class="t">DRV5055A4</text>
+<text x="1090" y="730" class="t">3–4 мм</text>
+<text x="1260" y="730" class="t">~80–110 мТ</text>
+<text x="1410" y="730" class="t">компактно</text>
+<line x1="932" y1="648" x2="1552" y2="648" stroke="#8a8378"/>
+<text x="940" y="790" class="t b">Важно</text>
+<text x="940" y="814" class="s" style="font-size:13px">• Все 4 магнита — одним полюсом вниз (аксиальные, полюса на плоских сторонах).</text>
+<text x="940" y="838" class="s" style="font-size:13px">• Зазор сделать регулируемым: проставки / резьба с шагом 0.5 мм.</text>
+<text x="940" y="862" class="s" style="font-size:13px">• Стали рядом нет: винты — пластик, латунь или нержавейка A2; пружины подальше от пар.</text>
+<text x="940" y="886" class="s" style="font-size:13px">• Проверка: OUT в покое ≈ 2.2–2.5 В, при полном ходе ≤ 3.0 В. Ближе к 3.1 В — увеличить зазор.</text>
+<text x="940" y="910" class="s" style="font-size:13px">• Соседние магниты на 35 мм влияют на ~0.5–1 мТ — постоянно, уходит калибровкой нуля.</text>
+<text x="940" y="934" class="s" style="font-size:13px">• Основание целиком ≈ 80–90 мм.</text>
+</svg>

@@ -9,6 +9,7 @@
 |---|---|
 | [`spacemouse_schematic.svg`](spacemouse_schematic.svg) | Датчики, питание, RC-фильтры АЦП |
 | [`buttons_encoder_schematic.svg`](buttons_encoder_schematic.svg) | Энкодер EC11 и 5 кнопок |
+| [`mechanics_layout.svg`](mechanics_layout.svg) | Размеры: расположение пар, шаг, зазор, ход (магниты 10×2) |
 
 Компоненты на схемах нарисованы там, где они стоят физически.
 SVG генерируются скриптами из [`tools/`](tools): `python3 tools/gen_sensors_schematic.py`.
