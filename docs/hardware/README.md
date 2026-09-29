@@ -13,6 +13,8 @@
 Компоненты на схемах нарисованы там, где они стоят физически.
 SVG генерируются скриптами из [`tools/`](tools): `python3 tools/gen_sensors_schematic.py`.
 
+USB-протокол (дескрипторы, форматы отчётов, частоты): [`../firmware/usb-hid-protocol.md`](../firmware/usb-hid-protocol.md).
+
 ## Распиновка Blue Pill
 
 | Пин | Назначение |
