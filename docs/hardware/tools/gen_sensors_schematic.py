@@ -72,8 +72,16 @@ for k,y in enumerate(rows):
     n=k+1
     # pin label
     a(f'<text x="{XBP-8}" y="{y+5}" class="m" text-anchor="end">PA{k}</text>')
-    # провод напрямую: OUT датчика -> PAx
-    a(f'<path class="w" d="M{XBP} {y} H760"/>')
+    # R
+    a(f'<path class="w" d="M{XBP} {y} H510 M570 {y} H760"/>')
+    a(f'<rect x="510" y="{y-7}" width="60" height="14" fill="#fff" stroke="#2b2a27" stroke-width="2"/>')
+    a(f'<text x="540" y="{y-12}" class="s" text-anchor="middle">R{n} 1 кОм</text>')
+    # C to gnd
+    dot(620,y,'#2b2a27')
+    a(f'<path class="w" d="M620 {y} V{y+13} M620 {y+19} V{y+28}"/>')
+    a(f'<path class="w" d="M607 {y+13} H633 M607 {y+19} H633" style="stroke-width:3"/>')
+    gnd(620,y+28)
+    a(f'<text x="640" y="{y+24}" class="s">C{6+n} 10 нФ</text>')
     # sensor
     a(f'<rect class="box" x="760" y="{y-30}" width="140" height="60" rx="5"/>')
     a(f'<text x="830" y="{y-4}" class="t b" text-anchor="middle">U{n} · {"AB"[k%2]}</text>')
@@ -98,7 +106,7 @@ L=[('b','Обозначения'),
    ('v','+3V3 (от пина 3.3 Blue Pill)'),('g','GND'),
    ('sp',''),('b','Цоколёвка DRV5055, TO-92'),('s','маркировкой к себе, слева направо:'),('m','1 VCC · 2 GND · 3 OUT'),
    ('sp',''),('b','Где ставить'),('s','Компоненты нарисованы там,'),('s','где они стоят физически:'),('s','C1, C2 — у пина 3.3 Blue Pill'),('s','C3–C6 — у ножек своей пары'),
-   ('s','OUT датчиков — проводом прямо на PA0–PA7'),('gs','— земля (GND)'),
+   ('s','R1–R8, C7–C14 — у пинов PA0–PA7'),('s','(RC-фильтр, опционально)'),('gs','— земля (GND)'),
    ('sp',''),('b','Питание'),('s','STM32 ~30–50 мА'),('s','8 × DRV5055 48–80 мА'),('s','LED ~2–5 мА'),
    ('s','Кольцо WS2812 (5 В) до ~230 мА'),('t','Итого до ~370 мА — USB хватает'),('s','LDO Blue Pill 150–300 мА, запас есть'),
    ('sp',''),('b','Важно'),('s','Датчики — только от 3.3 В, не от 5 В'),('s','(иначе выход > 3.3 В на входе АЦП)'),

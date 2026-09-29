@@ -1,8 +1,8 @@
 """SpaceRat — плата v3: односторонняя, под фоторезист (шаблон — лазерная печать на плёнке).
 
 Blue Pill ставится на гнёзда со стороны БЕЗ меди, ноги паяются на медь; USB-разъём
-выступает за левый край. Всё остальное — на стороне меди, между рядами гнёзд:
-C1/C2 (1206) и площадки под провода (без отверстий, провод паяется сверху на площадку).
+выступает за левый край. Всё остальное — на стороне меди: SMD 1206 (C1/C2, RC-фильтры
+R1–R8 и C7–C14) и площадки под провода (без отверстий, провод паяется сверху на площадку).
 
 Генерирует в этой папке:
   spacerat_film.svg / .pdf  — шаблоны на плёнку 1:1: негатив (плёночный фоторезист)
@@ -32,9 +32,11 @@ ROWS = 15.24               # между рядами гнёзд Blue Pill (0.6")
 PAD_D, DRILL = 1.8, 0.9    # площадка гнезда, сверло
 EDGE = 1.08                # от края платы до меди (центр крайнего пина — 1.98 мм)
 W = 19 * P + 2 * (PAD_D / 2 + EDGE)        # 52.22
-H = ROWS + 2 * (PAD_D / 2 + EDGE)          # 19.20
 X0 = YT = PAD_D / 2 + EDGE                 # центр пина 0 верхнего ряда
 YB = YT + ROWS
+# снизу под нижним рядом — конденсаторы RC-фильтров C7–C14 (у пинов АЦП)
+YC_NODE, YC_GND = YB + 2.6, YB + 6.0
+H = YC_GND + 1.6 / 2 + EDGE                 # ≈ 25.1
 TW, PW = 0.8, 1.0          # дорожка сигнала / питания
 CLEAR = 0.6                # зазор заливки до чужих цепей
 MIN_CLEAR = 0.5            # минимально допустимый зазор (проверка)
@@ -101,7 +103,7 @@ for k, n in enumerate(BOT):
     pad(pin_net(n, n in USED_BOT), xk(k), YB, 'hdr', n, 'bp')
 
 # ------------------------------------ площадки под провода, между рядами ---
-YU = YT + 3.9              # верхний ряд: кольцо, энкодер, кнопки
+YU = YT + 3.7              # верхний ряд: кольцо, энкодер, кнопки
 YL = YB - 3.9              # нижний ряд: питание и выходы датчиков
 YCOMB = YT + 7.6           # гребёнка +3.3 между рядами
 
@@ -124,10 +126,20 @@ for k in (2, 3, 4, 5):
     pad('3V3', xk(k), YL, 'wire', '+3.3', 'spwr')
 for k in (6, 7):
     pad('GND', xk(k), YL, 'wire', 'GND', 'spwr')
+# RC-фильтр каждого входа (как на схеме): датчик — площадка — R (1 кОм) — пин АЦП, C (10 нФ) у пина.
+# R — между рядами над пином, C — под пином с внешней стороны нижнего ряда.
+YR_PIN, YR_FAR = YB - 2.6, YB - 6.0          # R: у пина / к площадке
+YS = YB - 8.0                                # площадка провода датчика (стык с R)
 for pin, lab in SENSE.items():
     k = BOT.index(pin)
-    pad(pin, xk(k), YL, 'wire', lab, 'sens')
-    trace(pin, [(xk(k), YB), (xk(k), YL)])
+    x = xk(k)
+    n = int(pin[1:]) + 1                     # U1..U8 -> R1..R8, C7..C14
+    smd(f'R{n}', '1 кОм', x, (YR_PIN + YR_FAR) / 2, 'S_' + pin, pin)
+    trace(pin, [(x, YB), (x, YR_PIN)])
+    trace('S_' + pin, [(x, YR_FAR), (x, YS)])
+    pad('S_' + pin, x, YS, 'wire', lab, 'sens')
+    smd(f'C{6 + n}', '10 нФ', x, (YC_NODE + YC_GND) / 2, pin, 'GND')
+    trace(pin, [(x, YB), (x, YC_NODE)])
 
 # +3.3: пин -> площадка k2 -> гребёнка -> площадки k3..k5; C1, C2 — на гребёнке
 trace('3V3', [(xk(2), YB), (xk(2), YL)], PW)
@@ -163,9 +175,16 @@ net_geom['GND'] = unary_union(keep)
 
 # ============================================================== проверка ===
 errors = []
+gnd_parts = list(net_geom['GND'].geoms) if net_geom['GND'].geom_type == 'MultiPolygon' else [net_geom['GND']]
 for n in nets:
     g = net_geom[n]
-    if g.geom_type != 'Polygon':
+    if n == 'GND':
+        # земля может состоять из нескольких кусков, если каждый сидит на своём пине G:
+        # пины G соединены земляным полигоном самого Blue Pill (звезда: кольцо — на свой G)
+        for part in gnd_parts:
+            if not any(part.contains(gp) for gp in gnd_pins):
+                errors.append('кусок земли без пина G Blue Pill')
+    elif g.geom_type != 'Polygon':
         errors.append(f'цепь {n}: не соединена ({len(g.geoms)} кусков)')
     if not board.buffer(-EDGE + 0.02, join_style=2).contains(g):
         errors.append(f'цепь {n}: ближе {EDGE} мм к краю платы')
@@ -186,6 +205,7 @@ for s in smds:
 
 print(f'плата {W:.1f}×{H:.1f} мм; цепей: {len(nets)}, площадок: {len(pads)}, SMD: {len(smds)}, дорожек: {len(traces)}')
 print(f'минимальный зазор между цепями: {min_gap:.2f} мм, удалено островов заливки: {dropped}')
+print(f'земля: {len(gnd_parts)} кусок(ка), каждый на своём пине G Blue Pill')
 if errors:
     print('ОШИБКИ:')
     for e in errors:
@@ -206,7 +226,7 @@ def path_d(geom, tf):
 
 
 copper = unary_union(list(net_geom.values()))
-TEXT_AT = (xk(13.5), YCOMB + 0.9)          # надпись в заливке, между рядами площадок
+TEXT_AT = (xk(17.5), YC_GND + 0.5)         # надпись в заливке, справа снизу
 
 # ---------------------------------------------------- шаблоны на плёнку ---
 # Плёнка кладётся тонером к меди, поэтому печать = вид сверху (как в этом файле).
@@ -230,7 +250,7 @@ def film(ox, oy, negative):
             x, y = tf(p_['x'], p_['y'])
             o.append(f'<circle cx="{x:.3f}" cy="{y:.3f}" r="0.3" fill="{bg}"/>')
     tx, ty = tf(*TEXT_AT)
-    o.append(f'<text transform="translate({tx:.2f} {ty:.2f}) scale(-1 1)" font-size="1.8" font-weight="bold" '
+    o.append(f'<text transform="translate({tx:.2f} {ty:.2f}) scale(-1 1)" font-size="1.4" font-weight="bold" '
              f'text-anchor="middle" fill="{bg}">SPACERAT v3</text>')
     return o
 
@@ -356,7 +376,7 @@ for p, k0 in ((3, 8), (2, 10), (1, 12), (0, 14)):
 
 ly = OY + H * S + 150
 notes = [
-    'Порядок: 1) C1 (10 мкФ) и C2 (100 нФ), 1206 — на медь; 2) гнёзда 1×20 — сверху, пайка на медь;',
+    'Порядок: 1) SMD 1206 на медь: C1 10 мкФ, C2 100 нФ, R1–R8 1 кОм, C7–C14 10 нФ; 2) гнёзда 1×20 — сверху;',
     '   3) провода — на площадки между рядами (без отверстий, лудить и паять сверху); 4) Blue Pill в гнёзда.',
     'Датчики: пара p = 4 провода — её A и B + по одному +3.3 и GND из группы «питание датчиков».',
     '   A0 → U1 (PA0), B0 → U2, A1 → U3, B1 → U4, A2 → U5, B2 → U6, A3 → U7, B3 → U8 (PA7).',

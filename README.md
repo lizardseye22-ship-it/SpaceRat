@@ -34,7 +34,7 @@ SpaceMouse. Работает с родным драйвером **3DxWare под
 | Схема датчиков и питания | [`docs/hardware/spacemouse_schematic.svg`](docs/hardware/spacemouse_schematic.svg) |
 | Схема кнопок, энкодера и кольца | [`docs/hardware/buttons_encoder_schematic.svg`](docs/hardware/buttons_encoder_schematic.svg) |
 | Размеры механики (магниты 10×2) | [`docs/hardware/mechanics_layout.svg`](docs/hardware/mechanics_layout.svg) |
-| Печатная плата 52×19 мм (односторонняя, фоторезист) | [`pcb/README.md`](pcb/README.md) |
+| Печатная плата 52×25 мм (односторонняя, фоторезист) | [`pcb/README.md`](pcb/README.md) |
 | Распиновка, компоненты, механика, формулы осей | [`docs/hardware/README.md`](docs/hardware/README.md) |
 | Прошивка: сборка, прошивка, калибровка, настройки | [`firmware/README.md`](firmware/README.md) |
 | USB HID SpaceMouse: дескрипторы, отчёты, частоты | [`docs/firmware/usb-hid-protocol.md`](docs/firmware/usb-hid-protocol.md) |
