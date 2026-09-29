@@ -1,6 +1,6 @@
 """Генерирует docs/hardware/buttons_encoder_schematic.svg. Запуск: python3 gen_buttons_schematic.py"""
 import os
-W,H=1380,1010
+W,H=1380,1080
 o=[];a=o.append
 a(f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" font-family="DejaVu Sans, Arial, sans-serif">')
 a('''<style>
@@ -23,7 +23,7 @@ a('<text x="616" y="164" class="t b">Энкодер (на корпусе)</text>
 a('<rect class="band" x="600" y="420" width="460" height="330" rx="10"/>')
 a('<text x="616" y="444" class="t b">Кнопки хоткеев (на корпусе)</text>')
 # Blue Pill
-a(f'<rect x="60" y="120" width="{XBP-60}" height="850" rx="8" fill="#e9eef5" stroke="#2b2a27" stroke-width="2"/>')
+a(f'<rect x="60" y="120" width="{XBP-60}" height="900" rx="8" fill="#e9eef5" stroke="#2b2a27" stroke-width="2"/>')
 a('<text x="170" y="430" class="t b" text-anchor="middle" style="font-size:18px">Blue Pill</text>')
 a('<text x="170" y="452" class="s" text-anchor="middle">STM32F103C8T6</text>')
 a('<text x="170" y="472" class="s" text-anchor="middle">вход + внутр. pull-up</text>')
@@ -72,35 +72,41 @@ for i,(p,y) in enumerate(btns):
     a(f'<path class="g" d="M{x1+5} {y} H{XG}"/>'); dot(XG,y,'#1d4e89')
     a(f'<text x="{x1+20}" y="{y-8}" class="s">кнопка {["1","2","3","4","Fit"][i]}</text>')
 # ring WS2812
-a('<rect class="band" x="600" y="780" width="460" height="200" rx="10"/>')
+a('<rect class="band" x="600" y="780" width="460" height="260" rx="10"/>')
 a('<text x="616" y="804" class="t b">Кольцо WS2812 (под рукояткой)</text>')
-ya, yv = 840, 920   # DIN и 5V
+ya, yv, yg = 840, 900, 980   # DIN, 5V, GND кольца
+V5 = 'stroke:#c2410c;stroke-width:2.5;fill:none'
 a(f'<text x="{XBP-8}" y="{ya+5}" class="m" text-anchor="end">PA8</text>')
 a(f'<text x="{XBP-8}" y="{yv+5}" class="m" text-anchor="end">5V</text>')
+a(f'<text x="{XBP-8}" y="{yg+5}" class="m" text-anchor="end">G</text>')
 a(f'<path class="w" d="M{XBP} {ya} H860"/>')
-a(f'<path d="M{XBP} {yv} H860" style="stroke:#c2410c;stroke-width:2.5;fill:none"/>')
+a(f'<path d="M{XBP} {yv} H860" style="{V5}"/>')
+a(f'<path class="g" d="M{XBP} {yg} H860"/>')
 # подтяжка 1к между линией данных и 5 В — у Blue Pill
 dot(420,ya); dot(420,yv,'#c2410c')
-a(f'<path class="w" d="M420 {ya} V{ya+18} M420 {yv-18} V{yv}"/>')
-a(f'<rect x="413" y="{ya+18}" width="14" height="{yv-ya-36}" fill="#fff" stroke="#2b2a27" stroke-width="2"/>')
+a(f'<path class="w" d="M420 {ya} V{ya+14} M420 {yv-14} V{yv}"/>')
+a(f'<rect x="413" y="{ya+14}" width="14" height="{yv-ya-28}" fill="#fff" stroke="#2b2a27" stroke-width="2"/>')
 a(f'<text x="436" y="{(ya+yv)//2-4}" class="s">R 1 кОм</text>')
 a(f'<text x="436" y="{(ya+yv)//2+12}" class="s">у Blue Pill</text>')
+# свитая пара 5V/GND: отметки скрутки
+for x in range(470, 581, 22):
+    a(f'<path d="M{x} {yv+6} L{x+14} {yg-6} M{x} {yg-6} L{x+14} {yv+6}" style="stroke:#8a8378;stroke-width:1.2;fill:none"/>')
+a(f'<text x="470" y="{yg+24}" class="s">5V + GND кольца — отдельная свитая пара</text>')
+a(f'<text x="470" y="{yg+40}" class="s">к своему пину G, земли сходятся только на Blue Pill</text>')
 # кольцо
-a('<rect class="box" x="860" y="820" width="170" height="130" rx="8"/>')
-a('<circle cx="960" cy="885" r="30" fill="none" stroke="#2b2a27" stroke-width="2" stroke-dasharray="5 4"/>')
-a('<text x="960" y="889" class="s" text-anchor="middle">N шт.</text>')
-a(f'<text x="866" y="{ya+4}" class="s" style="font-size:11px">DIN</text>')
-a(f'<text x="866" y="{yv+4}" class="s" style="font-size:11px">5V</text>')
-a('<text x="1024" y="836" class="s" text-anchor="end" style="font-size:11px">GND</text>')
-a(f'<path class="g" d="M1000 820 V740"/>'); dot(1000,740,'#1d4e89')
-# конденсаторы у кольца: 5 В -> земля
-for cx,lab in ((660,'470 мкФ'),(780,'100 нФ')):
-    dot(cx,yv,'#c2410c')
-    a(f'<path class="w" d="M{cx} {yv} V{yv+11} M{cx} {yv+17} V{yv+26}"/>')
-    a(f'<path class="w" d="M{cx-12} {yv+11} H{cx+12} M{cx-12} {yv+17} H{cx+12}" style="stroke-width:3"/>')
-    gnd(cx,yv+26)
-    a(f'<text x="{cx+16}" y="{yv+22}" class="s">{lab}</text>')
-a(f'<text x="{cx-12}" y="{yv+52}" class="s">C — у кольца</text>')
+a('<rect class="box" x="860" y="820" width="170" height="180" rx="8"/>')
+a('<circle cx="960" cy="910" r="30" fill="none" stroke="#2b2a27" stroke-width="2" stroke-dasharray="5 4"/>')
+a('<text x="960" y="914" class="s" text-anchor="middle">N шт.</text>')
+for lab,y in (('DIN',ya),('5V',yv),('GND',yg)):
+    a(f'<text x="866" y="{y+4}" class="s" style="font-size:11px">{lab}</text>')
+# конденсаторы у кольца: между 5 В и GND кольца
+mid = (yv + yg) // 2
+for cx,lab in ((680,'470 мкФ'),(790,'100 нФ')):
+    dot(cx,yv,'#c2410c'); dot(cx,yg,'#1d4e89')
+    a(f'<path class="w" d="M{cx} {yv} V{mid-3} M{cx} {mid+3} V{yg}"/>')
+    a(f'<path class="w" d="M{cx-12} {mid-3} H{cx+12} M{cx-12} {mid+3} H{cx+12}" style="stroke-width:3"/>')
+    a(f'<text x="{cx+16}" y="{mid+5}" class="s">{lab}</text>')
+a(f'<text x="670" y="{yv-10}" class="s">C — у кольца</text>')
 
 # notes
 lx=1090
@@ -108,7 +114,7 @@ L=[('b','Кнопки SpaceMouse Pro'),('s','SW1–SW4 → 1–4, SW5 → Fit'),
    ('sp',''),('b','Обвязка'),('s','Кнопки: вывод → пин, вывод → GND'),('s','Pull-up — внутренние, в прошивке'),('s','Дребезг — программно, 5–10 мс'),('s','Внешних резисторов нет'),
    ('sp',''),('b','EC11, вид снизу'),('s','3 вывода: A · C · B'),('s','(C — средний, на GND)'),('s','2 вывода: S1 · S2 — кнопка'),
    ('sp',''),('b','Не использовать'),('s','PB2 (BOOT1), PB3/PB4/PA15 (JTAG)'),('s','PA11/PA12 (USB), PA13/PA14 (SWD)'),('s','PA0–PA7 заняты датчиками'),
-   ('sp',''),('b','Кольцо WS2812'),('s','PA8 — TIM1_CH1, открытый сток,'),('s','5 В-толерантный; R 1 кОм к 5 В'),('s','Питание 5 В с USB (пин 5V)'),('s','Яркость ограничена в прошивке'),('s','C 470 мкФ + 100 нФ — у кольца'),
+   ('sp',''),('b','Кольцо WS2812'),('s','PA8 — TIM1_CH1, открытый сток,'),('s','5 В-толерантный; R 1 кОм к 5 В'),('s','Питание 5 В с USB (пин 5V)'),('s','5V + GND — своей свитой парой,'),('s','не через землю датчиков/кнопок'),('s','C 470 мкФ + 100 нФ — у кольца'),('s','Яркость ограничена в прошивке'),
    ('sp',''),('b','Обозначения'),('dot','— соединение'),('gs','— земля (GND)'),('g','шина GND'),]
 y=140
 for kind,txt in L:

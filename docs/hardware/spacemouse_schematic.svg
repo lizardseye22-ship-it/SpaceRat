@@ -273,11 +273,15 @@
 <text x="1350" y="570" class="s">STM32 ~30–50 мА</text>
 <text x="1350" y="592" class="s">8 × DRV5055 48–80 мА</text>
 <text x="1350" y="614" class="s">LED ~2–5 мА</text>
-<text x="1350" y="636" class="t b">Итого ≈ 80–135 мА — USB хватает</text>
-<text x="1350" y="658" class="s">LDO Blue Pill 150–300 мА, запас есть</text>
-<text x="1350" y="692" class="t b">Важно</text>
-<text x="1350" y="714" class="s">Датчики — только от 3.3 В, не от 5 В</text>
-<text x="1350" y="736" class="s">(иначе выход > 3.3 В на входе АЦП)</text>
-<text x="1350" y="758" class="s">Если ПК не видит USB: 1.8 кОм</text>
-<text x="1350" y="780" class="s">между PA12 и 3.3 В (фикс R10)</text>
+<text x="1350" y="636" class="s">Кольцо WS2812 (5 В) до ~230 мА</text>
+<text x="1350" y="658" class="t b">Итого до ~370 мА — USB хватает</text>
+<text x="1350" y="680" class="s">LDO Blue Pill 150–300 мА, запас есть</text>
+<text x="1350" y="714" class="t b">Важно</text>
+<text x="1350" y="736" class="s">Датчики — только от 3.3 В, не от 5 В</text>
+<text x="1350" y="758" class="s">(иначе выход > 3.3 В на входе АЦП)</text>
+<text x="1350" y="780" class="s">Если ПК не видит USB: 1.8 кОм</text>
+<text x="1350" y="802" class="s">между PA12 и 3.3 В (фикс R10)</text>
+<text x="1350" y="824" class="s">Земля датчиков и кольца WS2812</text>
+<text x="1350" y="846" class="s">сходятся только на Blue Pill:</text>
+<text x="1350" y="868" class="s">кольцо — своей парой 5V/GND</text>
 </svg>
